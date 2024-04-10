@@ -22,7 +22,11 @@ const authGuard = (request, response, next) => {
         request.userId = decoded.userId
         next()
     } catch(error) {
-        response.status(401).json({ error: 'Unauthorized.' })
+        if (error.name === 'TokenExpiredError') {
+            return response.status(401).json({ error: 'Session expired.' });
+        } else {
+            return response.status(401).json({ error: 'Unauthorized.' });
+        }
     }
 }
 
@@ -85,7 +89,7 @@ router.post('/login', async (request, response) => {
             response.status(401).json({ error: 'Invalid username or password.' })
         }
 
-        const token = jwt.sign({ userId: user._id }, jwtSecret)
+        const token = jwt.sign({ userId: user._id }, jwtSecret, { expiresIn: '1h' })
         response.cookie('token', token, { httpOnly: true })
 
         response.redirect('/dashboard')
