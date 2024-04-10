@@ -1,0 +1,26 @@
+<div class="author">
+    <h1 class="author__heading">Hi, I am Raymond.</h1>
+    <p class="author__body">Web developer and content creater.</p>
+</div>
+
+<img src="/img/home_page_img.jpg" alt="Panorama view of the night sky hung above the bustling city." class="home-page-img" width="1340" height="450">
+
+<section class="articles">
+    <h2 class="articles__heading">Latest Posts</h2>
+
+    <ul class="article-ul">
+        <% posts.forEach(post => { %>
+            <li>
+                <a href="post/<%= post._id %>">
+                    <span><%= post.title %></span>
+                    <span class="article-list__date"><%= post.createdAt.toDateString() %></span>
+                </a>
+            </li>
+        <% }) %>
+    </ul>
+
+    <% if (nextPageNum >= 0) { %>
+        <a href="?page=<%= nextPageNum %>" class="pagination">&lt; View Older Posts</a>
+    <% } %>
+
+</section>
