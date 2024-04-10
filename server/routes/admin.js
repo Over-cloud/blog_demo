@@ -52,21 +52,29 @@ router.get('/admin', async (request, response) => {
 // GET
 // ADMIN - dashboard
 router.get('/dashboard', authGuard, async (request, response) => {
-    response.render('admin/dashboard')
-    // try {
-    //     const locals = {
-    //         title: "Admin",
-    //         description: "Admin page.",
-    //     }
-    //
-    //     response.render('admin/dashboard', {
-    //         locals,
-    //         layout: adminLayout,
-    //     })
-    //
-    // } catch (error) {
-    //     console.log(error)
-    // }
+    try {
+        const locals = {
+            title: "Admin",
+            description: "Admin page.",
+        }
+
+        const pageNum = request.query.page || 0
+        const postPerPage = 5
+        const sortCriteria = { createdAt: -1 }
+        const posts = await Post.getByPage(pageNum, postPerPage, sortCriteria)
+
+        const postCnt = await Post.count()
+        const nextPageNum = (pageNum + 1) * postPerPage < postCnt ? (pageNum + 1) : -1
+
+        response.render('admin/dashboard', {
+            locals,
+            posts,
+            nextPageNum
+        })
+
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 // POST
