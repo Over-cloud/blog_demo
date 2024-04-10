@@ -319,22 +319,22 @@ img {
 
 
 /* Dashboard Admin */
-/* .admin-title {
+.admin__title {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.admin-posts {
+.admin__posts {
   padding: 0;
   margin: 0;
 }
 
-.admin-post-controls form {
+.admin__post__controls form {
   display: inline-block;
 }
 
-.admin-post-controls .btn  {
+.admin__post__controls .btn  {
   display: inline-block;
   background-color: var(--black);
   color: var(--gray-light);
@@ -345,8 +345,8 @@ img {
   line-height: 2;
 }
 
-.admin-posts li {
+.admin__posts__ul li {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
-} */
+}
