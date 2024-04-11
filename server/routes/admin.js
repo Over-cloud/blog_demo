@@ -31,15 +31,15 @@ const authGuard = (request, response, next) => {
 }
 
 // GET
-// ADMIN
+// Login-Register
 router.get('/admin', async (request, response) => {
     try {
         const locals = {
-            title: "Admin",
+            title: "Login-Register",
             description: "Admin page.",
         }
 
-        response.render('admin/index', {
+        response.render('admin/login-register', {
             locals,
             layout: adminLayout,
         })
