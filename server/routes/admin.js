@@ -190,5 +190,30 @@ router.post('/add-post', authGuard, async (request, response) => {
     }
 })
 
+// GET
+// DASHBOARD - EDIT POST
+router.put('/edit-post/:id', authGuard, async (request, response) => {
+    const postId = request.params.id
+    const data = request.body
+
+    try {
+        const post = await Post.findById(postId)
+
+        if (!post) {
+            throw new Error('Post not found.');
+        }
+
+        post.title = data.title
+        post.body = data.body
+        post.updatedAt = Date.now()
+
+        await post.save()
+
+        response.redirect(`/edit-post/${postId}`)
+    } catch (error) {
+        response.status(500).json({ error: 'Internal server error.' })
+    }
+})
+
 
 module.exports = router
