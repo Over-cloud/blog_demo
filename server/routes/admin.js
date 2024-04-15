@@ -145,5 +145,23 @@ router.post('/register', async (request, response) => {
     }
 })
 
+// POST
+// DASHBOARD - ADD POST
+router.post('/add-post', authGuard, async (request, response) => {
+    const data = request.body
+    try {
+        const newPost = new Post({
+            title: data.title,
+            body: data.body,
+        })
+
+        await newPost.save()
+
+        response.redirect('/dashboard')
+    } catch (error) {
+        response.status(500).json({ error: 'Internal server error.' })
+    }
+})
+
 
 module.exports = router
