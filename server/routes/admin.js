@@ -77,6 +77,20 @@ router.get('/dashboard', authGuard, async (request, response) => {
     }
 })
 
+// GET
+// DASHBOARD - ADD POST
+router.get('/add-post', authGuard, async (request, response) => {
+    const locals = {
+        title: "Add Post",
+        description: "Create a new post.",
+    }
+
+    response.render('admin/add-post', {
+        locals,
+        layout: adminLayout,
+    })
+})
+
 // POST
 // Login
 router.post('/login', async (request, response) => {
