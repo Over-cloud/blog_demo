@@ -1,0 +1,15 @@
+<a href="/dashboard" class="">&larr; Back</a>
+
+<div class="admin__title">
+    <h2>Edit Post</h2>
+</div>
+
+<form class="" action="/edit-post/<%= post._id %>?_method=PUT" method="post">
+    <label for="title"><b>TITLE</b></label>
+    <input type="text" name="title" placeholder="Give it a title." value="<%= post.title %>">
+
+    <label for="body"><b>MAIN CONTENT</b></label>
+    <textarea name="body" cols="50" rows="10"><%= post.body %></textarea>
+
+    <input type="submit" value="Update" class="btn">
+</form>

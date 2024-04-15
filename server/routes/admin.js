@@ -91,6 +91,33 @@ router.get('/add-post', authGuard, async (request, response) => {
     })
 })
 
+// GET
+// DASHBOARD - EDIT POST
+router.get('/edit-post/:id', authGuard, async (request, response) => {
+    const locals = {
+        title: "Edit Post",
+        description: "Edit an existing post.",
+    }
+
+    const postId = request.params.id
+
+    try {
+        const post = await Post.findById(postId)
+
+        if (!post) {
+            throw new Error('Post not found.');
+        }
+
+        response.render('admin/edit-post', {
+            locals,
+            layout: adminLayout,
+            post,
+        })
+    } catch (error) {
+        response.status(500).json({ error: 'Internal server error.' })
+    }
+})
+
 // POST
 // Login
 router.post('/login', async (request, response) => {
