@@ -41,7 +41,6 @@ router.get('/admin', async (request, response) => {
 
         response.render('admin/login-register', {
             locals,
-            layout: adminLayout,
         })
 
     } catch (error) {
@@ -69,7 +68,8 @@ router.get('/dashboard', authGuard, async (request, response) => {
         response.render('admin/dashboard', {
             locals,
             posts,
-            nextPageNum
+            nextPageNum,
+            layout: adminLayout,
         })
 
     } catch (error) {
