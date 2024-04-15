@@ -27,6 +27,13 @@
         <a href="?page=<%= nextPageNum %>" class="pagination">&lt; View Older Posts</a>
     <% } %>
 
+</section>
+
+<div class="admin__title">
+    <h2>Manage Deleted Posts</h2>
+</div>
+
+<section class="admin__posts">
     <ul class="admin__posts__ul">
         <% deletedPosts.forEach(post => { %>
             <li>
