@@ -190,7 +190,7 @@ router.post('/add-post', authGuard, async (request, response) => {
     }
 })
 
-// GET
+// PUT
 // DASHBOARD - EDIT POST
 router.put('/edit-post/:id', authGuard, async (request, response) => {
     const postId = request.params.id
