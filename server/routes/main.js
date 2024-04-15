@@ -3,22 +3,6 @@ const { body, validationResult } = require('express-validator')
 const router = express.Router()
 const Post = require('../models/post')
 
-// function testInsert() {
-//     Post.insertMany([
-//         {
-//             title: 'First blog post',
-//             body: 'Body of first blog post.',
-//         },
-//         {
-//             title: 'Dos blog post',
-//             body: 'Body of dos blog post.',
-//         },
-//     ])
-//     console.log("test insertMany with dummy data")
-// }
-//
-// testInsert()
-
 // GET
 // HOME
 router.get('', async (request, response) => {
