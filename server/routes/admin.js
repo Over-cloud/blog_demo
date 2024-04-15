@@ -197,17 +197,15 @@ router.put('/edit-post/:id', authGuard, async (request, response) => {
     const data = request.body
 
     try {
-        const post = await Post.findById(postId)
+        const updatedPost = await Post.findByIdAndUpdate(postId, {
+            title: data.title,
+            body: data.body,
+            updatedAt: Date.now()
+        }, { new: true });
 
-        if (!post) {
+        if (!updatedPost) {
             throw new Error('Post not found.');
         }
-
-        post.title = data.title
-        post.body = data.body
-        post.updatedAt = Date.now()
-
-        await post.save()
 
         response.redirect(`/edit-post/${postId}`)
     } catch (error) {
