@@ -27,4 +27,26 @@
         <a href="?page=<%= nextPageNum %>" class="pagination">&lt; View Older Posts</a>
     <% } %>
 
+    <ul class="admin__posts__ul">
+        <% deletedPosts.forEach(post => { %>
+            <li>
+                <a href="post/<%= post._id %>">
+                    <span><%= post.title %></span>
+                    <span class="article-list__date"><%= post.createdAt.toDateString() %></span>
+                </a>
+
+                <div class="admin__post__controls">
+                    <a href="edit-post/<%= post._id %>" class="btn">Edit</a>
+                    <form class="" action="restore-post/<%= post._id %>?_method=PUT" method="post">
+                        <input type="submit" value="Restore" class="btn">
+                    </form>
+                </div>
+            </li>
+        <% }) %>
+    </ul>
+
+    <% if (nextDeletedPageNum >= 0) { %>
+        <a href="?deletedPage=<%= nextDeletedPageNum %>" class="pagination">&lt; View Older Deleted Posts</a>
+    <% } %>
+
 </section>
