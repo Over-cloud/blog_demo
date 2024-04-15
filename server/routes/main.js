@@ -14,10 +14,7 @@ router.get('', async (request, response) => {
 
         const pageNum = request.query.page || 0
         const postPerPage = 5
-        const sortCriteria = { createdAt: -1 }
-        const posts = await Post.getByPage(pageNum, postPerPage, sortCriteria)
-
-        const postCnt = await Post.count()
+        const {posts, postCnt} = await Post.getByPage({ pageNum, postPerPage })
         const nextPageNum = (pageNum + 1) * postPerPage < postCnt ? (pageNum + 1) : -1
 
         response.render('index', {

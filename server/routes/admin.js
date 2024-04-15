@@ -57,18 +57,22 @@ router.get('/dashboard', authGuard, async (request, response) => {
             description: "Admin page.",
         }
 
-        const pageNum = request.query.page || 0
         const postPerPage = 5
-        const sortCriteria = { createdAt: -1 }
-        const posts = await Post.getByPage(pageNum, postPerPage, sortCriteria)
 
-        const postCnt = await Post.count()
+        const pageNum = request.query.page || 0
+        const { posts, postCnt } = await Post.getByPage({ pageNum, postPerPage })
         const nextPageNum = (pageNum + 1) * postPerPage < postCnt ? (pageNum + 1) : -1
+
+        const deletedPageNum = request.query.deletedPage || 0
+        const {posts: deletedPosts, postCnt: deletedPostCnt} = await Post.getDeletedByPage({ pageNum: deletedPageNum, postPerPage })
+        const nextDeletedPageNum = (pageNum + 1) * postPerPage < deletedPostCnt ? (pageNum + 1) : -1
 
         response.render('admin/dashboard', {
             locals,
             posts,
             nextPageNum,
+            deletedPosts,
+            nextDeletedPageNum,
             layout: adminLayout,
         })
 
