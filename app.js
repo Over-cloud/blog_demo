@@ -7,6 +7,7 @@ const expressLayout = require('express-ejs-layouts')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
+const methodOverride = require('method-override')
 
 const connectToDB = require('./server/config/db')
 
@@ -36,6 +37,8 @@ app.use(session({
         mongoUrl: process.env.MONGODB_URI
     }),
 }))
+
+app.use(methodOverride('_method'))
 
 // Parse application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }))
