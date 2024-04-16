@@ -15,12 +15,13 @@ router.get('', async (request, response) => {
         const pageNum = request.query.page || 0
         const postPerPage = 5
         const {posts, postCnt} = await Post.getByPage({ pageNum, postPerPage })
-        const nextPageNum = (pageNum + 1) * postPerPage < postCnt ? (pageNum + 1) : -1
+        const hasNextPage = (pageNum + 1) * postPerPage < postCnt
 
         response.render('index', {
             locals,
             posts,
-            nextPageNum,
+            pageNum,
+            hasNextPage,
         })
 
     } catch (error) {

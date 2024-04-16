@@ -19,8 +19,8 @@
         <% }) %>
     </ul>
 
-    <% if (nextPageNum >= 0) { %>
-        <a href="?page=<%= nextPageNum %>" class="pagination">&lt; View Older Posts</a>
+    <% if (hasNextPage) { %>
+        <a href="?page=<%= pageNum + 1 %>" class="pagination">&lt; View Older Posts</a>
     <% } %>
 
 </section>
