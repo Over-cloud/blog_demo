@@ -11,5 +11,8 @@
     <label for="body"><b>MAIN CONTENT</b></label>
     <textarea name="body" cols="50" rows="10"><%= post.body %></textarea>
 
-    <input type="submit" value="Update" class="btn">
+    <input type="submit" name="action" value="Update" class="btn">
+    <% if (isDeleted) { %>
+        <input type="submit" name="action" value="Update And Restore" class="btn">
+    <% } %>
 </form>

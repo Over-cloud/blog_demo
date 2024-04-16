@@ -116,8 +116,9 @@ router.get('/edit-post/:id', authGuard, async (request, response) => {
 
         response.render('admin/edit-post', {
             locals,
-            layout: adminLayout,
             post,
+            isDeleted: post.isDeleted,
+            layout: adminLayout,
         })
     } catch (error) {
         response.status(500).json({ error: 'Internal server error.' })
@@ -202,12 +203,18 @@ router.put('/edit-post/:id', authGuard, async (request, response) => {
     const postId = request.params.id
     const data = request.body
 
+    let updateFields = {
+        title: data.title,
+        body: data.body,
+        updatedAt: Date.now()
+    }
+    if (data.action === 'Update And Restore') {
+        updateFields.isDeleted = false
+    }
+
     try {
-        const updatedPost = await Post.findByIdAndUpdate(postId, {
-            title: data.title,
-            body: data.body,
-            updatedAt: Date.now()
-        }, { new: true });
+
+        const updatedPost = await Post.findByIdAndUpdate(postId, updateFields, { new: true });
 
         if (!updatedPost) {
             throw new Error('Post not found.');
