@@ -157,6 +157,18 @@ router.post('/login', async (request, response) => {
 })
 
 // POST
+// LOGOUT
+router.post('/logout', async (request, response) => {
+    try {
+        response.clearCookie('token')
+        response.redirect('/')
+    } catch (error) {
+        console.log(error)
+        response.status(500).json({ error: 'Internal server error.' })
+    }
+})
+
+// POST
 // ADMIN - register
 router.post('/register', async (request, response) => {
     try {
