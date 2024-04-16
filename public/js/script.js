@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function(){
+    // show/hide the search bar
     const buttonList = document.querySelectorAll('.header__button button')
     const searchBar = document.getElementById('searchBar')
 
@@ -25,4 +26,14 @@ document.addEventListener('DOMContentLoaded', function(){
         searchBar.classList.remove('open')
     })
 
+    // show/hide the password
+    const passwordInput = document.getElementById('password-input')
+    const showPasswordCheckbox = document.getElementById('show-password-checkbox')
+    showPasswordCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            passwordInput.type = 'text'
+        } else {
+            passwordInput.type = 'password'
+        }
+    })
 })
