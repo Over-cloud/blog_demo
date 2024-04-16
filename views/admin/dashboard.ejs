@@ -5,6 +5,12 @@
 
 <section class="admin__posts">
 
+    <% if (pageNum > 0) { %>
+        <a href="?page=<%= pageNum - 1 %>&deletedPage=<%= deletedPageNum %>" class="pagination">
+            &lt; View Recent Posts
+        </a>
+    <% } %>
+
     <ul class="admin__posts__ul">
         <% posts.forEach(post => { %>
             <li>
@@ -24,7 +30,9 @@
     </ul>
 
     <% if (hasNextPage) { %>
-        <a href="?page=<%= pageNum + 1 %>" class="pagination">&lt; View Older Posts</a>
+        <a href="?page=<%= pageNum + 1 %>&deletedPage=<%= deletedPageNum %>" class="pagination">
+            &lt; View Older Posts
+        </a>
     <% } %>
 
 </section>
@@ -34,6 +42,13 @@
 </div>
 
 <section class="admin__posts">
+
+    <% if (deletedPageNum > 0) { %>
+        <a href="?page=<%= pageNum %>&deletedPage=<%= deletedPageNum - 1 %>" class="pagination">
+            &lt; View Recent Deleted Posts
+        </a>
+    <% } %>
+
     <ul class="admin__posts__ul">
         <% deletedPosts.forEach(post => { %>
             <li>
@@ -53,7 +68,9 @@
     </ul>
 
     <% if (hasNextDeletedPage) { %>
-        <a href="?deletedPage=<%= deletedPageNum + 1 %>" class="pagination">&lt; View Older Deleted Posts</a>
+        <a href="?page=<%= pageNum %>&deletedPage=<%= deletedPageNum + 1 %>" class="pagination">
+            &lt; View Older Deleted Posts
+        </a>
     <% } %>
 
 </section>
