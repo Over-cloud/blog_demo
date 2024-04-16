@@ -219,5 +219,47 @@ router.put('/edit-post/:id', authGuard, async (request, response) => {
     }
 })
 
+// PUT
+// DASHBOARD - DELETE POST
+router.put('/delete-post/:id', authGuard, async (request, response) => {
+    const postId = request.params.id
+
+    try {
+        const toDelete = await Post.findByIdAndUpdate(postId, {
+            isDeleted: true,
+            updatedAt: Date.now()
+        }, { new: true });
+
+        if (!toDelete) {
+            throw new Error('Post not found.');
+        }
+
+        response.redirect('/dashboard')
+    } catch (error) {
+        response.status(500).json({ error: 'Internal server error.' })
+    }
+})
+
+// PUT
+// DASHBOARD - RESTORE POST
+router.put('/restore-post/:id', authGuard, async (request, response) => {
+    const postId = request.params.id
+
+    try {
+        const toRestore = await Post.findByIdAndUpdate(postId, {
+            isDeleted: false,
+            updatedAt: Date.now()
+        }, { new: true });
+
+        if (!toRestore) {
+            throw new Error('Post not found.');
+        }
+
+        response.redirect('/dashboard')
+    } catch (error) {
+        response.status(500).json({ error: 'Internal server error.' })
+    }
+})
+
 
 module.exports = router

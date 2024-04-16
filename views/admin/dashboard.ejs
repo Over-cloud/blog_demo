@@ -21,7 +21,7 @@
 
                 <div class="admin__post__controls">
                     <a href="edit-post/<%= post._id %>" class="btn">Edit</a>
-                    <form class="" action="delete-post/<%= post._id %>?_method=DELETE" method="post">
+                    <form class="" action="delete-post/<%= post._id %>?_method=PUT" method="post">
                         <input type="submit" value="Delete" class="btn">
                     </form>
                 </div>
@@ -37,6 +37,8 @@
 
 </section>
 
+
+<!-- DELETED SECTION -->
 <div class="admin__title">
     <h2>Manage Deleted Posts</h2>
 </div>
