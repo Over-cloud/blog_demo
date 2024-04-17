@@ -4,13 +4,13 @@
     <nav class="header__nav">
         <ul>
             <li>
-                <a href="/" class="">HOME</a>
+                <a href="/" class="<%= getRouteClass("/", currRoute) %>">HOME</a>
             </li>
             <li>
-                <a href="/about" class="">ABOUT</a>
+                <a href="/about" class="<%= getRouteClass("/about", currRoute) %>">ABOUT</a>
             </li>
             <li>
-                <a href="/contact" class="">CONTACT</a>
+                <a href="/contact" class="<%= getRouteClass("/contact", currRoute) %>">CONTACT</a>
             </li>
         </ul>
     </nav>
