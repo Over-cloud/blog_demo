@@ -163,9 +163,8 @@ img {
     text-decoration: none;
 }
 
-#about.active,
-#contact.active {
-    color: white;
+.header__nav ul li a.active {
+    color: grey;
 }
 
 .header__nav ul a:hover {
