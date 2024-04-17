@@ -1,6 +1,7 @@
 require('dotenv').config()
 const visitorRouter = require('./server/routes/main')
 const adminRouter = require('./server/routes/admin')
+const getRouteClass = require('./server/helper/routeHelper')
 
 const express = require('express')
 const expressLayout = require('express-ejs-layouts')
@@ -18,6 +19,12 @@ connectToDB()
 
 // Serve static files from the 'public' directory
 app.use(express.static('public'))
+
+// Make getRouteClass available to templates
+app.use((request, response, next) => {
+    response.locals.getRouteClass = getRouteClass;
+    next()
+})
 
 // Serve font files from the 'fonts' directory
 app.use('/fonts', express.static('fonts'));
