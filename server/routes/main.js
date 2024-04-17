@@ -22,6 +22,7 @@ router.get('', async (request, response) => {
             posts,
             pageNum,
             hasNextPage,
+            currRoute: '/',
         })
 
     } catch (error) {
@@ -45,6 +46,7 @@ router.get('/post/:id', async (request, response) => {
         response.render('post', {
             locals,
             post,
+            currRoute: `/post/${id}`,
         })
 
     } catch (error) {
@@ -59,7 +61,10 @@ router.get('/about', (request, response) => {
         title: "About",
         description: "About page",
     }
-    response.render('about', { locals })
+    response.render('about', {
+        locals,
+        currRoute: '/about',
+    })
 })
 
 // GET
@@ -69,7 +74,29 @@ router.get('/contact', (request, response) => {
         title: "Contact",
         description: "Contact page",
     }
-    response.render('contact', { locals })
+    response.render('contact', {
+        locals,
+        currRoute: '/contact',
+    })
+})
+
+// GET
+// Login-Register
+router.get('/admin', async (request, response) => {
+    try {
+        const locals = {
+            title: "Login-Register",
+            description: "Admin page.",
+        }
+
+        response.render('admin/login-register', {
+            locals,
+            currRoute: '/admin',
+        })
+
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 

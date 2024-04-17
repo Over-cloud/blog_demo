@@ -31,24 +31,6 @@ const authGuard = (request, response, next) => {
 }
 
 // GET
-// Login-Register
-router.get('/admin', async (request, response) => {
-    try {
-        const locals = {
-            title: "Login-Register",
-            description: "Admin page.",
-        }
-
-        response.render('admin/login-register', {
-            locals,
-        })
-
-    } catch (error) {
-        console.log(error)
-    }
-})
-
-// GET
 // ADMIN - dashboard
 router.get('/dashboard', authGuard, async (request, response) => {
     try {
