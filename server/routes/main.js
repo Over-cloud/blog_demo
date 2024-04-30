@@ -89,9 +89,9 @@ router.get('/admin', async (request, response) => {
             description: "Admin page.",
         }
 
-        response.render('admin/login-register', {
+        response.render('login-register', {
             locals,
-            currRoute: '/admin',
+            currRoute: '/admin', // Unused
         })
 
     } catch (error) {

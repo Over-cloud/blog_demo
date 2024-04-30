@@ -26,14 +26,26 @@ document.addEventListener('DOMContentLoaded', function(){
         searchBar.classList.remove('open')
     })
 
-    // show/hide the password
-    const passwordInput = document.getElementById('password-input')
-    const showPasswordCheckbox = document.getElementById('show-password-checkbox')
-    showPasswordCheckbox.addEventListener('change', function() {
-        if (this.checked) {
-            passwordInput.type = 'text'
+    // show/hide password icon
+    document.getElementById('password-input').addEventListener('input', function() {
+        var passwordInput = document.getElementById('password-input');
+        var showPasswordIcon = document.getElementById('show-password-icon');
+        if (passwordInput.value.trim() !== '') {
+            showPasswordIcon.style.display = 'block';
         } else {
-            passwordInput.type = 'password'
+            showPasswordIcon.style.display = 'none';
         }
-    })
+    });
+
+    // show/hide the password
+    document.getElementById('show-password-icon').addEventListener('click', function() {
+        var passwordInput = document.getElementById('password-input');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            this.style.backgroundImage = 'url(/img/hide_password_icon.png)';
+        } else {
+            passwordInput.type = 'password';
+            this.style.backgroundImage = 'url(/img/show_password_icon.png)';
+        }
+    });
 })

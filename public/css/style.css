@@ -71,7 +71,7 @@ img {
 }
 
 /* layout */
-.container {
+.main-layout-container {
     max-width: 982px;
     margin: 0 auto;
     padding: 0 10px;
@@ -271,7 +271,9 @@ img {
 
 /* Footer */
 .footer {
-    margin: 4rem;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
     text-align: center;
 }
 
@@ -286,7 +288,7 @@ img {
     right: 0;
 }
 
-#searchBar .container {
+#searchBar .main-layout-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
