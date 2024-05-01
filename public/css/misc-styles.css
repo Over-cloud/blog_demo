@@ -1,0 +1,15 @@
+.dot {
+    position: relative;
+    top: -0.15em; /* Adjust this value to vertically center the dot */
+    display: inline-block;
+    width: 5px; /* Adjust the width of the dot */
+    height: 5px; /* Adjust the height of the dot */
+    background-color: black; /* Set the color of the dot */
+    border-radius: 50%; /* Make the dot round */
+    margin-left: 2px; /* Adjust the distance between the dot and the text */
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
