@@ -1,0 +1,19 @@
+@import url('base-styles.css');
+@import url('buttons.css');
+@import url('misc-styles.css');
+@import url('header-search.css');
+@import url('author.css');
+@import url('articles.css');
+@import url('footer.css');
+@import url('admin-dashboard.css');
+
+/* layout */
+.main-layout-container {
+    max-width: 982px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+.main {
+    padding: 20px 0;
+}
