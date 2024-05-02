@@ -3,6 +3,8 @@ const { body, validationResult } = require('express-validator')
 const router = express.Router()
 const Post = require('../models/post')
 
+const loginRegisterLayout = '../views/layouts/login-register-layout'
+
 // GET
 // HOME
 router.get('', async (request, response) => {
@@ -91,7 +93,8 @@ router.get('/admin', async (request, response) => {
 
         response.render('login-register', {
             locals,
-            currRoute: '/admin', // Unused
+            currRoute: '/admin', // Unused'
+            layout: loginRegisterLayout,
         })
 
     } catch (error) {
