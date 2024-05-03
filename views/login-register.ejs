@@ -10,7 +10,7 @@
             <form action="/login" method="post">
                 <div class="login-form-group">
                     <label for="username">Username</label>
-                    <div class="tooltip-icon" data-tooltip="Default: test"></div>
+                    <div class="tooltip-icon" data-tooltip="Default: admin"></div>
                     <input type="text" name="username" placeholder="Enter username">
                 </div>
                 <div class="login-form-group">
@@ -22,6 +22,20 @@
                     </div>
                 </div>
                 <button type="submit">Login</button>
+            </form>
+            <hr>
+            <p>Or</p>
+            <form action="/signup" method="post">
+                <button type="submit">Signup with Invitation Code</button>
+                <div class="login-form-group">
+                    <div id="invitation-code-inputs">
+                        <input type="text" maxlength="1" size="1" name="invitation-code-1" placeholder="-">
+                        <input type="text" maxlength="1" size="1" name="invitation-code-2" placeholder="-">
+                        <input type="text" maxlength="1" size="1" name="invitation-code-3" placeholder="-">
+                        <input type="text" maxlength="1" size="1" name="invitation-code-4" placeholder="-">
+                    </div>
+                    <div class="tooltip-icon" data-tooltip="Default: 1234"></div>
+                </div>
             </form>
         </div>
     </div>

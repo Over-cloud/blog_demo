@@ -76,6 +76,7 @@ button[type="submit"] {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-bottom: 20px;
 }
 
 button[type="submit"]:hover {
@@ -152,4 +153,30 @@ button[type="submit"]:hover {
 
 .tooltip-icon:hover::after {
     display: block;
+}
+
+hr {
+    color: #ccc;
+    background-color: #ccc;
+    height: 2px;
+    border: none;
+    margin: 20px 0;
+}
+
+p {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+#invitation-code-inputs {
+    display: inline-flex;
+}
+
+#invitation-code-inputs input {
+    width: 30px;
+    text-align: center;
+    margin-right: 5px;
 }
