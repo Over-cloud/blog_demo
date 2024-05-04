@@ -8,23 +8,27 @@
 <section class="articles">
     <h2 class="articles__heading">Latest Posts</h2>
 
-    <% if (pageNum > 0) { %>
-        <a href="?page=<%= pageNum - 1 %>" class="pagination">&lt; View Recent Posts</a>
-    <% } %>
+    <% if (connSucc) { %>
+        <% if (pageNum > 0) { %>
+            <a href="?page=<%= pageNum - 1 %>" class="pagination">&lt; View Recent Posts</a>
+        <% } %>
 
-    <ul class="article-ul">
-        <% posts.forEach(post => { %>
-            <li>
-                <a href="post/<%= post._id %>">
-                    <span><%= post.title %></span>
-                    <span class="article-list__date"><%= post.createdAt.toDateString() %></span>
-                </a>
-            </li>
-        <% }) %>
-    </ul>
+        <ul class="article-ul">
+            <% posts.forEach(post => { %>
+                <li>
+                    <a href="post/<%= post._id %>">
+                        <span><%= post.title %></span>
+                        <span class="article-list__date"><%= post.createdAt.toDateString() %></span>
+                    </a>
+                </li>
+            <% }) %>
+        </ul>
 
-    <% if (hasNextPage) { %>
-        <a href="?page=<%= pageNum + 1 %>" class="pagination">&lt; View Older Posts</a>
+        <% if (hasNextPage) { %>
+            <a href="?page=<%= pageNum + 1 %>" class="pagination">&lt; View Older Posts</a>
+        <% } %>
+    <% }  else {%>
+        <p class="posts-error-message">Failed to load posts. Please try again later.</p>
     <% } %>
 
 </section>

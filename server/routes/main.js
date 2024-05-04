@@ -16,7 +16,7 @@ router.get('', async (request, response) => {
 
         const pageNum = request.query.page || 0
         const postPerPage = 5
-        let posts, postCnt;
+        let posts, postCnt, connSucc = true;
 
         try {
             // Attempt to retrieve posts from the database
@@ -24,16 +24,17 @@ router.get('', async (request, response) => {
             posts = result.posts;
             postCnt = result.postCnt;
         } catch (error) {
-            // Handle database connection error
             console.error("Error connecting to the database:", error);
-            // Render an error page notifying the user that the posts failed to load
-            return response.status(401).json({ error: 'Failed to load posts. Please try again later.' });
+            connSucc = false;
+            posts = []; // Set posts to an empty array
+            postCnt = 0;
         }
 
         const hasNextPage = (pageNum + 1) * postPerPage < postCnt
 
         response.render('index', {
             locals,
+            connSucc,
             posts,
             pageNum,
             hasNextPage,
@@ -152,6 +153,5 @@ router.post('/search', [
         console.log(error)
     }
 })
-
 
 module.exports = router
