@@ -6,7 +6,7 @@ const router = express.Router()
 const Post = require('../models/post')
 const User = require('../models/user')
 
-const adminLayout = '../views/layouts/admin'
+const adminLayout = '../views/layouts/admin-layout'
 
 const jwtSecret = process.env.JWT_SECRET
 
