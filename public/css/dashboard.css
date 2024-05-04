@@ -1,32 +1,104 @@
-/* Dashboard Admin */
-.admin__title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Dashboard Header */
+.dashboard-header {
+    background-color: #007bff;
+    padding: 20px;
+    color: #fff;
 }
 
-.admin__posts {
-  padding: 0;
-  margin: 0;
+.dashboard-title {
+    margin-bottom: 20px;
 }
 
-.admin__post__controls form {
-  display: inline-block;
+.dashboard-title h1 {
+    margin: 0;
 }
 
-.admin__post__controls .btn  {
-  display: inline-block;
-  background-color: var(--black);
-  color: var(--gray-light);
-  border: 0;
-  text-decoration: none;
-  font-size: .8rem;
-  padding: 4px 8px;
-  line-height: 2;
+.dashboard-nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
-.admin__posts__ul li {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
+.dashboard-nav li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.dashboard-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Dashboard Main */
+.dashboard-main {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.dashboard-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    flex-basis: 48%;
+}
+
+.dashboard-title h2 {
+    margin: 0;
+}
+
+.dashboard-content {
+    margin-bottom: 20px;
+}
+
+.dashboard-content .pagination {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.dashboard-post-ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.dashboard-post-ul li {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.dashboard-post-ul li:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+.dashboard-post-ul li a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+}
+
+.dashboard-post-controls .btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.dashboard-post-controls .btn-edit {
+    background-color: #28a745;
+}
+
+.dashboard-post-controls .btn-delete {
+    background-color: #dc3545;
+}
+
+.dashboard-post-controls .btn-restore {
+    background-color: #ffc107;
 }
