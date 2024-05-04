@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
-const connectToDB = async () => {
+const connectToDBByFactory = async (connectionFactory = mongoose.connect) => {
     mongoose.set('strictQuery', false)
-    return mongoose.connect(process.env.MONGODB_URI)
+    return connectionFactory(process.env.MONGODB_URI)
         .then(conn => {
             const host = conn.connection.host
             const port = conn.connection.port
@@ -13,5 +13,12 @@ const connectToDB = async () => {
             console.error('Error connecting to MongoDB:', err)
         });
 }
+
+// Mocked connection function for testing
+const mockConnect = () => {
+    return Promise.reject(new Error('Mocked connection error'));
+}
+
+const connectToDB = () => connectToDBByFactory();
 
 module.exports = connectToDB
