@@ -119,12 +119,12 @@ router.post('/login', async (request, response) => {
         const { username, password } = request.body
         const user = await User.findOne({ username })
         if (!user) {
-            response.status(401).json({ error: 'Invalid username or password.' })
+            return response.status(401).json({ error: 'Invalid username or password.' })
         }
 
         const validPassword = await bcrypt.compare(password, user.password)
         if (!validPassword) {
-            response.status(401).json({ error: 'Invalid username or password.' })
+            return response.status(401).json({ error: 'Invalid username or password.' })
         }
 
         const token = jwt.sign({ userId: user._id }, jwtSecret, { expiresIn: '1h' })
@@ -134,7 +134,7 @@ router.post('/login', async (request, response) => {
 
     } catch (error) {
         console.log(error)
-        response.status(500).json({ error: 'Internal server error.' })
+        return response.status(500).json({ error: 'Internal server error.' })
     }
 })
 

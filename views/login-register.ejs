@@ -11,7 +11,8 @@
                 <div class="login-form-group">
                     <label for="username">Username</label>
                     <div class="tooltip-icon" data-tooltip="Default: admin"></div>
-                    <input type="text" name="username" placeholder="Enter username">
+                    <input type="text" name="username" placeholder="Enter username" id="username-input">
+                    <p class="error-message" id="username-error">Please enter a username.</p>
                 </div>
                 <div class="login-form-group">
                     <label for="password">Password</label>
@@ -19,6 +20,7 @@
                     <div class="password-input-div">
                         <input type="password" name="password" placeholder="Enter password" id="password-input">
                         <div id="show-password-icon" class="show-password-icon"></div>
+                        <p class="error-message" id="password-error">Please enter a password.</p>
                     </div>
                 </div>
                 <button type="submit" id="login-button">Login</button>
@@ -35,6 +37,7 @@
                         <input type="text" maxlength="1" size="1" name="invitation-code-4" placeholder="-">
                     </div>
                     <div class="tooltip-icon" data-tooltip="Default: 1234"></div>
+                    <p class="error-message" id="invitation-inputs-error">Must be a 4-digit code.</p>
                 </div>
             </form>
         </div>

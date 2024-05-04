@@ -49,12 +49,45 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     });
 
+    // check if username and password is empty
+    const loginForm = document.querySelector('form[action="/login"]');
+    const usernameInput = document.getElementById('username-input');
+    const passwordInput = document.getElementById('password-input');
+    const usernameError = document.getElementById('username-error');
+    const passwordError = document.getElementById('password-error');
+    usernameInput.addEventListener('input', function() {
+        if (usernameInput.value.trim()) {
+            usernameError.style.display = 'none';
+        }
+    });
+
+    passwordInput.addEventListener('input', function() {
+        if (passwordInput.value.trim()) {
+            passwordError.style.display = 'none';
+        }
+    });
+
+    loginForm.addEventListener('submit', function(event) {
+        if (!usernameInput.value.trim()) {
+            event.preventDefault();
+            usernameError.style.display = 'block';
+        }
+
+        if (!passwordInput.value.trim()) {
+            event.preventDefault();
+            passwordError.style.display = 'block';
+        }
+    });
+
     // invitation code inputs
     const inputs = document.querySelectorAll('#invitation-code-inputs input');
+    const invitationInputError = document.getElementById('invitation-inputs-error');
     inputs.forEach((input, index) => {
         input.addEventListener('input', function() {
             // Ensure only digits are entered
             this.value = this.value.replace(/\D/g, '');
+
+            invitationInputError.style.display = 'none';
 
             if (this.value.length === 1) {
                 let first = index;
@@ -73,5 +106,21 @@ document.addEventListener('DOMContentLoaded', function(){
                 inputs[index - 1].focus();
             }
         });
+    });
+
+    // submit invitation code
+    const invitationForm = document.querySelector('form[action="/signup"]');
+    invitationForm.addEventListener('submit', function(event) {
+        let isInputValid = true;
+        inputs.forEach(input => {
+            if (input.value.length !== 1) {
+                isInputValid = false;
+            }
+        });
+
+        if (!isInputValid) {
+            event.preventDefault();
+            invitationInputError.style.display = 'block';
+        }
     });
 })
