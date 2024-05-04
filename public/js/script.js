@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
     // submit invitation code
-    const invitationForm = document.querySelector('form[action="/signup"]');
+    const invitationForm = document.querySelector('form[action="/verify-invitation-code"]');
     invitationForm.addEventListener('submit', function(event) {
         let isInputValid = true;
         inputs.forEach(input => {

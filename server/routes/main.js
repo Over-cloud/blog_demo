@@ -116,6 +116,26 @@ router.get('/login', async (request, response) => {
     }
 })
 
+// GET
+// Signup
+router.get('/signup', async (request, response) => {
+    try {
+        const locals = {
+            title: "Signup",
+            description: "Admin page.",
+        }
+
+        response.render('auth/signup', {
+            locals,
+            currRoute: '/admin', // Unused'
+            layout: loginSignupLayout,
+        })
+
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 
 // POST
 // SEARCH
@@ -148,6 +168,15 @@ router.post('/search', [
             locals,
             posts,
         })
+
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+router.post('/verify-invitation-code', async (request, response) => {
+    try {
+        response.redirect('/signup')
 
     } catch (error) {
         console.log(error)
