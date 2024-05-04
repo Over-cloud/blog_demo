@@ -48,4 +48,30 @@ document.addEventListener('DOMContentLoaded', function(){
             this.style.backgroundImage = 'url(/img/show_password_icon.png)';
         }
     });
+
+    // invitation code inputs
+    const inputs = document.querySelectorAll('#invitation-code-inputs input');
+    inputs.forEach((input, index) => {
+        input.addEventListener('input', function() {
+            // Ensure only digits are entered
+            this.value = this.value.replace(/\D/g, '');
+
+            if (this.value.length === 1) {
+                let first = index;
+                while (first > 0 && inputs[first - 1].value.length === 0) {
+                    first--;
+                }
+
+                if (first === index && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                } else {
+                    inputs[first].value = this.value;
+                    inputs[first + 1].focus();
+                    inputs[index].value = '';
+                }
+            } else if (this.value.length === 0 && index > 0) {
+                inputs[index - 1].focus();
+            }
+        });
+    });
 })
