@@ -5,6 +5,7 @@ const { body, validationResult } = require('express-validator')
 const router = express.Router()
 const Post = require('../models/post')
 const User = require('../models/user')
+const InvitationCode = require('../models/invitation-code')
 
 const adminLayout = '../views/layouts/admin-layout'
 
