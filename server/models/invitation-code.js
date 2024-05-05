@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
-const Schema = mongoose.Schema
-const InvCodeSchema = new Schema({
+const InvCodeSchema = new mongoose.Schema({
     code: {
         type: String,
         required: true,
@@ -31,6 +30,25 @@ const InvCodeSchema = new Schema({
         default: ''
     }
 });
+
+InvCodeSchema.statics.get = async function(params) {
+    const sortCriteria = params?.sortCriteria || { validFrom: -1 }
+
+    try {
+        const codes = await this.find()
+            .sort(sortCriteria)
+            .exec()
+
+        const codeCnt = await this.countDocuments()
+
+        return {
+            codes,
+            codeCnt,
+        }
+    } catch (error) {
+        throw new Error(`Error getting invitation codes: ${error.message}`)
+    }
+};
 
 const InvitationCode = mongoose.model('InvitationCode', InvCodeSchema);
 
