@@ -1,60 +1,40 @@
-const tabLinks = document.querySelectorAll('.tab-link');
-tabLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        if (link.classList.contains('current-tab')) {
-            console.log('nothing need to be changed');
-            return;
-        }
+document.addEventListener('DOMContentLoaded', function(){
+    const tabLinks = document.querySelectorAll('.tab-link');
+    // remove previous active link and section
+    function removePreviousActiveLink() {
+        const activeLink = document.querySelector('.current-tab');
+        if (activeLink) {
+            activeLink.classList.remove('current-tab');
 
-        let activeSectionId;
-        tabLinks.forEach(tab => {
-            if (tab.classList.contains('current-tab')) {
-                tab.classList.remove('current-tab');
-                activeSectionId = tab.getAttribute('href').slice(1);
+            const activeSectionId = activeLink.getAttribute('href').slice(1);
+            const activeSection = document.getElementById(activeSectionId);
+            if (activeSection) {
+                activeSection.classList.remove('active');
             }
-        });
+        }
+    }
 
-        if (activeSectionId === undefined || activeSectionId === null) {
-            console.log('null section id');
+    function setActiveLink(link) {
+        if (link.classList.contains('current-tab')) {
             return;
         }
 
-        let activeSection = document.getElementById(activeSectionId);
-        activeSection.classList.remove('active');
+        removePreviousActiveLink();
 
+        // set current active link and section
         link.classList.add('current-tab');
-
-        activeSectionId = link.getAttribute('href').slice(1);
-        if (activeSectionId === undefined || activeSectionId === null) {
-            console.log('null section id');
-            return;
+        const sectionId = link.getAttribute('href').slice(1);
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.classList.add('active');
         }
-        activeSection = document.getElementById(activeSectionId);
-        activeSection.classList.add('active');
+    }
+
+
+    tabLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            setActiveLink(this);
+        });
     });
 });
-
-// const tabLinks = document.querySelectorAll('.tab-link');
-// const sections = document.querySelectorAll('.dashboard-section');
-//
-// tabLinks.forEach(link => {
-//     link.addEventListener('click', (event) => {
-//         // Prevent default link behavior
-//         event.preventDefault();
-//
-//         // Remove 'current-tab' class from all tabs
-//         tabLinks.forEach(tab => tab.classList.remove('current-tab'));
-//         // Remove 'active' class from all sections
-//         sections.forEach(section => section.classList.remove('active'));
-//
-//         // Add 'current-tab' class to the clicked tab
-//         link.classList.add('current-tab');
-//
-//         // Get the ID of the target section from the link's href attribute
-//         const targetSectionId = link.getAttribute('href').slice(1);
-//         // Find the target section by ID
-//         const targetSection = document.getElementById(targetSectionId);
-//         // Add 'active' class to the target section
-//         targetSection.classList.add('active');
-//     });
-// });
