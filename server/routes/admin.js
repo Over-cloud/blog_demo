@@ -50,6 +50,8 @@ router.get('/dashboard', authGuard, async (request, response) => {
         const {posts: deletedPosts, postCnt: deletedPostCnt} = await Post.getDeletedByPage({ pageNum: deletedPageNum, postPerPage })
         const hasNextDeletedPage = (pageNum + 1) * postPerPage < deletedPostCnt
 
+        const { codes, codeCnt } = await InvitationCode.get();
+
         response.render('admin/dashboard', {
             locals,
             posts,
@@ -58,6 +60,8 @@ router.get('/dashboard', authGuard, async (request, response) => {
             deletedPosts,
             deletedPageNum,
             hasNextDeletedPage,
+            codes,
+            codeCnt,
             layout: adminLayout,
         })
 
