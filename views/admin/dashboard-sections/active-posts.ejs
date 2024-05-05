@@ -1,0 +1,34 @@
+<div class="dashboard-title">
+    <h2>Manage Posts</h2>
+</div>
+<div class="dashboard-content">
+    <% if (pageNum > 0) { %>
+        <a href="?page=<%= pageNum - 1 %>&deletedPage=<%= deletedPageNum %>" class="pagination">
+            &lt; View Recent Posts
+        </a>
+    <% } %>
+
+    <ul class="dashboard-post-ul">
+        <% posts.forEach(post => { %>
+            <li>
+                <a href="post/<%= post._id %>">
+                    <span><%= post.title %></span>
+                    <span class="article-date"><%= post.createdAt.toDateString() %></span>
+                </a>
+
+                <div class="dashboard-post-controls">
+                    <a href="edit-post/<%= post._id %>" class="btn btn-edit">Edit</a>
+                    <form class="" action="delete-post/<%= post._id %>?_method=PUT" method="post">
+                        <input type="submit" value="Delete" class="btn btn-delete">
+                    </form>
+                </div>
+            </li>
+        <% }) %>
+    </ul>
+
+    <% if (hasNextPage) { %>
+        <a href="?page=<%= pageNum + 1 %>&deletedPage=<%= deletedPageNum %>" class="pagination">
+            View Older Posts &gt;
+        </a>
+    <% } %>
+</div>
