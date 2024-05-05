@@ -1,18 +1,24 @@
+<head>
+    <script type="text/javascript" defer src="/js/dashboard-script.js"></script>
+</head>
+
 <header class="dashboard-header">
     <div class="dashboard-title">
         <h1>Blog Dashboard</h1>
     </div>
     <nav class="dashboard-nav">
         <ul>
+            <li><a href="#created-post-section" class="tab-link current-tab">Current Posts</a></li>
+            <li><a href="#deleted-post-section" class="tab-link">Deleted Posts</a></li>
             <li><a href="/add-post">Add New Post</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
     </nav>
 </header>
 
-<main class="dashboard-main">
+<div class="dashboard-main">
     <!-- CREATED SECTION -->
-    <section class="dashboard-section">
+    <section class="dashboard-section active" id="created-post-section">
         <div class="dashboard-title">
             <h2>Manage Posts</h2>
         </div>
@@ -50,7 +56,7 @@
     </section>
 
     <!-- DELETED SECTION -->
-    <section class="dashboard-section">
+    <section class="dashboard-section"  id="deleted-post-section">
         <div class="dashboard-title">
             <h2>Manage Deleted Posts</h2>
         </div>
@@ -86,4 +92,4 @@
             <% } %>
         </div>
     </section>
-</main>
+</div>

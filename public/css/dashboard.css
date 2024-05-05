@@ -38,10 +38,15 @@
 }
 
 .dashboard-section {
+    display: none;
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
     flex-basis: 48%;
+}
+
+.dashboard-section.active {
+    display: block;
 }
 
 .dashboard-title h2 {
