@@ -1,6 +1,32 @@
+<head>
+    <script type="text/javascript" defer src="/js/dashboard/invitation-code-script.js"></script>
+</head>
+
 <div class="dashboard-title">
     <h2>Manage Invitation Code</h2>
 </div>
-<div class="dashboard-content">
 
+<div class="dashboard-tools-panel">
+    <form class="dashboard-tool" id="generate-invitation-code">
+        <label for="new-code">New Invitation Code:</label>
+        <input type="text" id="new-code" readonly>
+        <button type="bnt" id="generate-invitation-code-btn">Generate Code</button>
+    </form>
+</div>
+
+<div class="dashboard-content">
+    <ul class="dashboard-post-ul">
+        <% if (codeCnt == 0) { %>
+            <span>No invitation code available.</span>
+        <% } %>
+        <% codes.forEach(codeDoc => { %>
+            <li>
+                <a href="">
+                    <span><%= codeDoc.code %></span>
+                    <span class="article-date"><%= codeDoc.validFrom.toDateString() %></span>
+                    <span class="article-date"><%= codeDoc.validUntil.toDateString() %></span>
+                </a>
+            </li>
+        <% }) %>
+    </ul>
 </div>
