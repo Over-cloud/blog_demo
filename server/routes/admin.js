@@ -267,5 +267,34 @@ router.put('/restore-post/:id', authGuard, async (request, response) => {
     }
 })
 
+router.post('/add-invitation-code', authGuard, async (request, response) => {
+    try {
+        const {
+            'invitation-code-1': code1,
+            'invitation-code-2': code2,
+            'invitation-code-3': code3,
+            'invitation-code-4': code4,
+            addCodeBtn,
+        } = request.body;
+
+        if (addCodeBtn === 'Add Code') {
+            const code = `${code1}${code2}${code3}${code4}`;
+
+            const newCode = new InvitationCode({
+                code,
+            })
+
+            await newCode.save()
+
+            response.status(201).json({ message: 'Add code success.' })
+        } else {
+            response.status(500).json({ error: 'Internal server error.' })
+        }
+
+    } catch(error) {
+        console.log(error)
+    }
+})
+
 
 module.exports = router

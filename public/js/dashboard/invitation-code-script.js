@@ -1,27 +1,95 @@
 document.addEventListener('DOMContentLoaded', function(){
-    const overlay = document.getElementById('overlay');
-    const addCodeBtn = document.getElementById('add-code-btn');
-    const closeBtn = document.getElementById('close-btn');
+    /*************************** SELECT ELEMENTS ***************************/
     const generateCodeBtn = document.getElementById('generate-invitation-code-btn');
-    const codeDisplay = document.getElementById('generated-code');
+    const overlay = document.getElementById('overlay');
+    const closeBtn = document.getElementById('close-btn');
+    const addCodeForm = document.querySelector('form[action="/add-invitation-code"]');
+    const outputs = document.querySelectorAll('#invitation-code-outputs input');
+    const invitationOutputError = document.getElementById('invitation-outputs-error');
 
-    function generateCode() {
-        return code = Math.floor(1000 + Math.random() * 9000);
-    }
 
-    function openOverlay() {
-        overlay.style.display = 'block';
-        codeDisplay.textContent = generateCode();
-    }
-
+    /*************************** EVENT LISTENERS ***************************/
+    // Initialize overlay
     generateCodeBtn.addEventListener('click', function(event) {
         event.preventDefault();
         openOverlay();
+        fillInCode();
     });
 
+    // Finalize overlay
+    closeBtn.addEventListener('click', closeOverlay);
+
+    // Ensure consecutive inputs
+    outputs.forEach((output, index) => {
+        output.addEventListener('input', function() {
+            // Ensure only digits are entered
+            this.value = this.value.replace(/\D/g, '');
+
+            invitationOutputError.style.display = 'none';
+
+            if (this.value.length === 1) {
+                let first = index;
+                while (first > 0 && outputs[first - 1].value.length === 0) {
+                    first--;
+                }
+
+                if (first === index) {
+                    if (index < outputs.length - 1) {
+                        outputs[index + 1].focus();
+                    }
+                } else {
+                    outputs[first].value = this.value;
+                    outputs[first + 1].focus();
+                    outputs[index].value = '';
+                }
+            } else if (this.value.length === 0 && index > 0) {
+                outputs[index - 1].focus();
+            }
+        });
+    });
+
+    // Check if code is valid
+    addCodeForm.addEventListener('submit', function(event) {
+        let isOutputValid = true;
+        outputs.forEach(output => {
+            if (output.value.length !== 1) {
+                isOutputValid = false;
+            }
+        });
+
+        if (!isOutputValid) {
+            event.preventDefault();
+            invitationOutputError.style.display = 'block';
+        }
+    });
+
+
+    /*************************** HELPER FUNCTIONS ***************************/
+    // Generate an N digit invitation code
+    function generateCode(n) {
+        let number = '';
+        for (let i = 0; i < n; i++) {
+            const digit = Math.floor(Math.random() * 10);
+            number += digit.toString();
+        }
+        return number;
+    }
+
+    // Show overlay
+    function openOverlay() {
+        overlay.style.display = 'block';
+    }
+
+    // Hide overlay
     function closeOverlay() {
         overlay.style.display = 'none';
     }
 
-    closeBtn.addEventListener('click', closeOverlay);
+    // Fill in the invitation code
+    function fillInCode() {
+        const number = generateCode(outputs.length);
+        outputs.forEach((output, index) => {
+            output.value = number[index]
+        })
+    }
 });
