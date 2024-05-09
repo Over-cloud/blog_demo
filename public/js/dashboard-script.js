@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', function(){
         const section = document.getElementById(sectionId);
         if (section) {
             section.classList.add('active');
-            // Store the ID of the active tab-link in localStorage
-            localStorage.setItem('activeSectionId', sectionId);
+            // Store the ID of the active tab-link in sessionStorage
+            sessionStorage.setItem('activeSectionId', sectionId);
         }
     }
 
@@ -40,8 +40,8 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     });
 
-    // Retrieve the ID of the active tab-link from localStorage
-    const sectionId = localStorage.getItem('activeSectionId');
+    // Retrieve the ID of the active tab-link from sessionStorage
+    const sectionId = sessionStorage.getItem('activeSectionId');
     if (sectionId) {
         // Find the tab-link with the retrieved ID and trigger a click event
         const link = document.querySelector(`.tab-link[href="#${sectionId}"]`);
