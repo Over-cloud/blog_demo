@@ -297,5 +297,22 @@ router.post('/add-invitation-code', authGuard, async (request, response) => {
     }
 })
 
+router.delete('/delete-code/:id', authGuard, async (request, response) => {
+    const codeId = request.params.id
+
+    try {
+        const deletedCode = await InvitationCode.findOneAndDelete({ _id: codeId });
+
+        if (!deletedCode) {
+            throw new Error('Code not found.');
+        }
+
+        response.status(201).json({ message: 'Invitation code deleted successfully.' });
+    } catch (error) {
+        response.status(500).json({ error: 'Internal server error.' })
+    }
+});
+
+
 
 module.exports = router

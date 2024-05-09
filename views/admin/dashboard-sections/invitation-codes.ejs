@@ -15,38 +15,39 @@
         <% if (codeCnt == 0) { %>
             <span>No invitation code available.</span>
         <% } %>
-        <% codes.forEach(codeDoc => { %>
+        <% codes.forEach(codeEntry => { %>
+
             <li>
                 <a href="">
-                    <span><%= codeDoc.code %></span>
-                    <span class="article-date"><%= codeDoc.validFrom.toDateString() %></span>
-                    <span class="article-date"><%= codeDoc.validUntil.toDateString() %></span>
+                    <span><%= codeEntry.code %></span>
+                    <span class="article-date"><%= codeEntry.validFrom.toDateString() %></span>
+                    <span class="article-date"><%= codeEntry.validUntil.toDateString() %></span>
                 </a>
+
+                <div class="dashboard-post-controls">
+                    <form class="" action="delete-code/<%= codeEntry._id %>?_method=DELETE" method="post">
+                        <input type="submit" value="Delete" class="btn btn-delete">
+                    </form>
+                </div>
             </li>
+
         <% }) %>
     </ul>
 </div>
 
 <div id="overlay" class="overlay">
     <div class="panel">
-
         <h2>Generate Invitation Code</h2>
         <button id="close-btn">Close</button>
         <form action="/add-invitation-code" method="post">
-            <p>Code: </p>
             <div id="invitation-code-outputs">
                 <input type="text" maxlength="1" size="1" name="invitation-code-1" placeholder="-">
                 <input type="text" maxlength="1" size="1" name="invitation-code-2" placeholder="-">
                 <input type="text" maxlength="1" size="1" name="invitation-code-3" placeholder="-">
                 <input type="text" maxlength="1" size="1" name="invitation-code-4" placeholder="-">
             </div>
-            <div class="tooltip-icon" data-tooltip="Default: 1234"></div>
             <p class="error-message" id="invitation-outputs-error"></p>
-            <label><input type="checkbox" name="option1"> Option 1</label><br>
-            <label><input type="checkbox" name="option2"> Option 2</label><br>
             <button type="submit" name="addCodeBtn" value="Add Code">Add Code</button>
         </form>
-
-        <!-- Add more checkbox options as needed -->
     </div>
 </div>
