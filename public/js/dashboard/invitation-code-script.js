@@ -49,7 +49,9 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
     // Check if code is valid
-    addCodeForm.addEventListener('submit', function(event) {
+    addCodeForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+
         let isOutputValid = true;
         outputs.forEach(output => {
             if (output.value.length !== 1) {
@@ -58,7 +60,36 @@ document.addEventListener('DOMContentLoaded', function(){
         });
 
         if (!isOutputValid) {
-            event.preventDefault();
+            invitationOutputError.textContent = 'Must be a 4-digit code.'
+            invitationOutputError.style.display = 'block';
+            return;
+        }
+
+        try {
+            const response = await fetch('/add-invitation-code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    'invitation-code-1': outputs[0].value,
+                    'invitation-code-2': outputs[1].value,
+                    'invitation-code-3': outputs[2].value,
+                    'invitation-code-4': outputs[3].value,
+                })
+            });
+
+            const responseData = await response.json();
+            if (response.ok) {
+                invitationOutputError.textContent = responseData.message;
+                invitationOutputError.style.display = 'block';
+                clearCode();
+            } else {
+                invitationOutputError.textContent = responseData.error;
+                invitationOutputError.style.display = 'block';
+            }
+        } catch (error) {
+            invitationOutputError.textContent = error;
             invitationOutputError.style.display = 'block';
         }
     });
@@ -87,9 +118,17 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // Fill in the invitation code
     function fillInCode() {
+        invitationOutputError.style.display = 'none';
         const number = generateCode(outputs.length);
         outputs.forEach((output, index) => {
-            output.value = number[index]
+            output.value = number[index];
+        })
+    }
+
+    // Clear the invitation code
+    function clearCode() {
+        outputs.forEach((output, index) => {
+            output.value = '';
         })
     }
 });

@@ -274,25 +274,26 @@ router.post('/add-invitation-code', authGuard, async (request, response) => {
             'invitation-code-2': code2,
             'invitation-code-3': code3,
             'invitation-code-4': code4,
-            addCodeBtn,
         } = request.body;
 
-        if (addCodeBtn === 'Add Code') {
-            const code = `${code1}${code2}${code3}${code4}`;
+        const code = `${code1}${code2}${code3}${code4}`;
 
-            const newCode = new InvitationCode({
-                code,
-            })
-
-            await newCode.save()
-
-            response.status(201).json({ message: 'Add code success.' })
-        } else {
-            response.status(500).json({ error: 'Internal server error.' })
+        // If the code exists, show warning
+        const existingCode = await InvitationCode.findOne({ code });
+        if (existingCode) {
+            console.log('Find key' + code);
+            return response.status(400).json({ error: 'Invitation code already exists.' });
         }
 
+        // Otherwise, save the code
+        const newCode = new InvitationCode({ code })
+        await newCode.save()
+
+        response.status(201).json({ message: 'Invitation code added successfully.' });
+
     } catch(error) {
-        console.log(error)
+        console.log(error);
+        response.status(500).json({ error: 'Internal server error.' });
     }
 })
 
