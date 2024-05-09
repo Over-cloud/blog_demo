@@ -7,6 +7,10 @@ document.addEventListener('DOMContentLoaded', function(){
     const outputs = document.querySelectorAll('#invitation-code-outputs input');
     const invitationOutputError = document.getElementById('invitation-outputs-error');
 
+    /*************************** ON PAGE LOAD ***************************/
+    if (sessionStorage.getItem('codeOverlay') === 'show') {
+        openOverlay();
+    }
 
     /*************************** EVENT LISTENERS ***************************/
     // Initialize overlay
@@ -84,6 +88,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 invitationOutputError.textContent = responseData.message;
                 invitationOutputError.style.display = 'block';
                 clearCode();
+
+                location.reload();
             } else {
                 invitationOutputError.textContent = responseData.error;
                 invitationOutputError.style.display = 'block';
@@ -109,11 +115,13 @@ document.addEventListener('DOMContentLoaded', function(){
     // Show overlay
     function openOverlay() {
         overlay.style.display = 'block';
+        sessionStorage.setItem('codeOverlay', 'show')
     }
 
     // Hide overlay
     function closeOverlay() {
         overlay.style.display = 'none';
+        sessionStorage.setItem('codeOverlay', 'hide')
     }
 
     // Fill in the invitation code
