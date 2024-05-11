@@ -100,6 +100,38 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     });
 
+    const delCodeFormList = document.querySelectorAll('form[action^="delete-code/"]');
+    const delCodeMessage = document.getElementById('delete-code-message');
+    delCodeFormList.forEach(form => {
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const action = form.getAttribute('action');
+            const codeId = action.split('/').pop();
+            console.log("form id: " + codeId);
+            try {
+                const response = await fetch(action, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const responseData = await response.json();
+                if (response.ok) {
+                    delCodeMessage.textContent = responseData.message;
+                    delCodeMessage.style.display = 'block';
+                } else {
+                    delCodeMessage.textContent = responseData.error;
+                    delCodeMessage.style.display = 'block';
+                }
+            } catch (error) {
+                delCodeMessage.textContent = responseData.error;
+                delCodeMessage.style.display = 'block';
+            }
+        });
+    });
+
 
     /*************************** HELPER FUNCTIONS ***************************/
     // Generate an N digit invitation code
