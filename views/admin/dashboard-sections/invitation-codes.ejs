@@ -11,7 +11,6 @@
 </div>
 
 <div class="dashboard-content">
-    <p class="inline-message" id="delete-code-message"></p>
     <ul class="dashboard-post-ul">
         <% if (codeCnt == 0) { %>
             <span>No invitation code available.</span>
@@ -51,4 +50,9 @@
             <button type="submit" name="addCodeBtn" value="Add Code">Add Code</button>
         </form>
     </div>
+</div>
+
+<div class="notification" id="delete-code-notification">
+    <span id="delete-code-message"></span>
+    <button id="delete-code-message-close">&times;</button>
 </div>
