@@ -1,8 +1,11 @@
 /* Dashboard Header */
 .dashboard-header {
-    background-color: #007bff;
-    padding: 20px;
+    background-color: #333;
     color: #fff;
+    padding: 20px;
+    /* display: flex;
+    justify-content: space-between;
+    align-items: center; */
 }
 
 .dashboard-title {
@@ -24,10 +27,24 @@
     margin-right: 20px;
 }
 
-.dashboard-nav a {
+.dashboard-nav ul li a {
     color: #fff;
     text-decoration: none;
-    font-weight: bold;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-nav ul li a:hover {
+    background-color: #555;
+}
+
+.current-tab {
+    background-color: #555;
+    border-radius: 5px;
+}
+
+.current-tab:hover {
+    background-color: #555;
 }
 
 /* Dashboard Main */
