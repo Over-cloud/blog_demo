@@ -11,15 +11,19 @@
     <ul class="dashboard-post-ul">
         <% deletedPosts.forEach(post => { %>
             <li>
-                <a href="post/<%= post._id %>">
-                    <span><%= post.title %></span>
-                    <span class="article-date"><%= post.createdAt.toDateString() %></span>
-                </a>
+                <div class="dashboard-post-info">
+                    <a href="post/<%= post._id %>">
+                        <span><%= post.title %></span>
+                        <span class="article-date"><%= post.createdAt.toDateString() %></span>
+                    </a>
+                </div>
 
                 <div class="dashboard-post-controls">
-                    <a href="edit-post/<%= post._id %>" class="btn btn-edit">Edit</a>
-                    <form class="" action="restore-post/<%= post._id %>?_method=PUT" method="post">
-                        <input type="submit" value="Restore" class="btn btn-restore">
+                    <form action="edit-post/<%= post._id %>" method="get">
+                        <button type="submit" class="btn btn-edit">
+                    </form>
+                    <form action="restore-post/<%= post._id %>?_method=PUT" method="post">
+                        <button type="submit" class="btn btn-restore">
                     </form>
                 </div>
             </li>

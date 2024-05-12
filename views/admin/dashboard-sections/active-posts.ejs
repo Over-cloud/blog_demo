@@ -11,15 +11,19 @@
     <ul class="dashboard-post-ul">
         <% posts.forEach(post => { %>
             <li>
-                <a href="post/<%= post._id %>">
-                    <span><%= post.title %></span>
-                    <span class="article-date"><%= post.createdAt.toDateString() %></span>
-                </a>
+                <div class="dashboard-post-info">
+                    <a href="post/<%= post._id %>">
+                        <span><%= post.title %></span>
+                        <span class="article-date"><%= post.createdAt.toDateString() %></span>
+                    </a>
+                </div>
 
                 <div class="dashboard-post-controls">
-                    <a href="edit-post/<%= post._id %>" class="btn btn-edit">Edit</a>
+                    <form action="edit-post/<%= post._id %>" method="get">
+                        <button type="submit" class="btn btn-edit">
+                    </form>
                     <form class="" action="delete-post/<%= post._id %>?_method=PUT" method="post">
-                        <input type="submit" value="Delete" class="btn btn-delete">
+                        <button type="submit" class="btn btn-delete"></button>
                     </form>
                 </div>
             </li>
