@@ -179,7 +179,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // Display the notification message
     function showNotification(messageData) {
-        console.log('show notification');
         const notification = document.getElementById('delete-code-notification');
         const message = document.getElementById('delete-code-message');
 
@@ -188,11 +187,12 @@ document.addEventListener('DOMContentLoaded', function(){
 
         sessionStorage.setItem('notification', 'show');
         sessionStorage.setItem('notification-message', messageData);
+
+        setTimeout(() => hideNotification(), 5000);
     }
 
     // Hide the notification message
     function hideNotification() {
-        console.log('cliked close');
         const notification = document.getElementById('delete-code-notification');
         notification.style.display = 'none';
 
