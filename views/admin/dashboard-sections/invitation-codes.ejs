@@ -10,6 +10,11 @@
     <button type="bnt" id="generate-invitation-code-btn">Generate Code</button>
 </div>
 
+<div class="notification" id="delete-code-notification">
+    <span id="delete-code-message"></span>
+    <button id="delete-code-message-close">&times;</button>
+</div>
+
 <div class="dashboard-content">
     <ul class="dashboard-post-ul">
         <% if (codeCnt == 0) { %>
@@ -50,9 +55,4 @@
             <button type="submit" name="addCodeBtn" value="Add Code">Add Code</button>
         </form>
     </div>
-</div>
-
-<div class="notification" id="delete-code-notification">
-    <span id="delete-code-message">delete code successful</span>
-    <button id="delete-code-message-close">&times;</button>
 </div>

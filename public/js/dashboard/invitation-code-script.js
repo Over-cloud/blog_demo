@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', function(){
         openOverlay();
     }
 
+    if (sessionStorage.getItem('notification') === 'show') {
+        showNotification(sessionStorage.getItem('notification-message'));
+    }
+
     /*************************** EVENT LISTENERS ***************************/
     // Initialize overlay
     generateCodeBtn.addEventListener('click', function(event) {
@@ -108,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
             const action = form.getAttribute('action');
             const codeId = action.split('/').pop();
-            console.log("form id: " + codeId);
             try {
                 const response = await fetch(action, {
                     method: 'DELETE',
@@ -119,18 +122,20 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 const responseData = await response.json();
                 if (response.ok) {
-                    delCodeMessage.textContent = responseData.message;
-                    delCodeMessage.style.display = 'block';
+                    showNotification(responseData.message);
+
+                    location.reload();
                 } else {
-                    delCodeMessage.textContent = responseData.error;
-                    delCodeMessage.style.display = 'block';
+                    showNotification(responseData.error);
                 }
             } catch (error) {
-                delCodeMessage.textContent = responseData.error;
-                delCodeMessage.style.display = 'block';
+                showNotification(responseData.error);
             }
         });
     });
+
+    const deleteCodeMsgCloseBtn = document.getElementById('delete-code-message-close');
+    deleteCodeMsgCloseBtn.addEventListener('click', hideNotification);
 
 
     /*************************** HELPER FUNCTIONS ***************************/
@@ -170,5 +175,27 @@ document.addEventListener('DOMContentLoaded', function(){
         outputs.forEach((output, index) => {
             output.value = '';
         })
+    }
+
+    // Display the notification message
+    function showNotification(messageData) {
+        console.log('show notification');
+        const notification = document.getElementById('delete-code-notification');
+        const message = document.getElementById('delete-code-message');
+
+        message.textContent = messageData;
+        notification.style.display = 'block';
+
+        sessionStorage.setItem('notification', 'show');
+        sessionStorage.setItem('notification-message', messageData);
+    }
+
+    // Hide the notification message
+    function hideNotification() {
+        console.log('cliked close');
+        const notification = document.getElementById('delete-code-notification');
+        notification.style.display = 'none';
+
+        sessionStorage.setItem('notification', 'hide');
     }
 });
