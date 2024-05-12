@@ -33,7 +33,7 @@
 /* Dashboard Main */
 .dashboard-main {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     margin: 20px;
 }
 
@@ -42,7 +42,7 @@
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
-    flex-basis: 48%;
+    flex-grow: 1;
 }
 
 .dashboard-section.active {
@@ -71,6 +71,7 @@
 }
 
 .dashboard-post-ul li {
+    display: flex;
     margin-bottom: 10px;
     border-bottom: 1px solid #ccc;
     padding-bottom: 10px;
@@ -86,6 +87,10 @@
     color: #333;
     display: flex;
     justify-content: space-between;
+}
+
+.dashboard-post-controls {
+    display: flex;
 }
 
 .dashboard-post-controls .btn {
