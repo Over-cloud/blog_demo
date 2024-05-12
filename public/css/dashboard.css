@@ -34,14 +34,13 @@
 .dashboard-main {
     display: flex;
     justify-content: center;
-    margin: 20px;
+    margin: 5px;
 }
 
 .dashboard-section {
     display: none;
     background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
+    border-radius: 15px;
     flex-grow: 1;
 }
 
@@ -50,10 +49,11 @@
 }
 
 .dashboard-title h2 {
-    margin: 0;
+    margin: 20px;
 }
 
 .dashboard-content {
+    margin: 5px;
     margin-bottom: 20px;
 }
 
@@ -74,9 +74,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
     margin-bottom: 20px;
-    border-bottom: 2px solid #ccc;
-    padding-bottom: 20px;
+    border-radius: 20px;
+}
+
+.dashboard-post-ul li:hover {
+    background-color: #eee;
 }
 
 .dashboard-post-ul li:last-child {
@@ -118,14 +123,14 @@
     width: 40px;
     height: 25px;
     padding: 4px 8px;
-    border: 2px solid #ccc;
+    border: 1px solid #666;
     border-radius: 10px;
-    background-color: #fff;
+    background-color: #eee;
     cursor: pointer;
 }
 
 .dashboard-post-controls .btn:hover {
-    background-color: #ccc;
+    box-shadow: 0 0 10px 5px #3498db;
 }
 
 .dashboard-post-controls .btn-edit::before {
