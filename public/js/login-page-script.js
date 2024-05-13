@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const showPasswordIcon = document.getElementById('show-password-icon');
     const usernameError = document.getElementById('username-error');
     const passwordError = document.getElementById('password-error');
+    const loginButton = document.getElementById('login-button');
 
     /***************************** ON PAGE LOAD *****************************/
 
@@ -50,23 +51,24 @@ document.addEventListener('DOMContentLoaded', function(){
     loginForm.addEventListener('submit', async function(event) {
         event.preventDefault();
 
-        let isInputEmpty = false;
-        if (!usernameInput.value.trim()) {
-            usernameError.style.display = 'block';
-            isInputEmpty = true;
-        }
-
-        if (!passwordInput.value.trim()) {
-            invitationInputError.textContent = 'Please enter a password.'
-            passwordError.style.display = 'block';
-            isInputEmpty = true;
-        }
-
-        if (isInputEmpty) {
-            return;
-        }
-
+        loginButton.disabled = true;
         try {
+            let isInputEmpty = false;
+            if (!usernameInput.value.trim()) {
+                usernameError.style.display = 'block';
+                isInputEmpty = true;
+            }
+
+            if (!passwordInput.value.trim()) {
+                invitationInputError.textContent = 'Please enter a password.'
+                passwordError.style.display = 'block';
+                isInputEmpty = true;
+            }
+
+            if (isInputEmpty) {
+                return;
+            }
+
             const response = await fetch('/login', {
                 method: 'POST',
                 headers: {
@@ -80,6 +82,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
             const responseData = await response.json();
             if (response.ok) {
+                passwordError.textContent = '';
+                passwordError.style.display = 'none';
                  window.location.href = '/dashboard';
             } else {
                 passwordError.textContent = responseData.error;
@@ -89,6 +93,8 @@ document.addEventListener('DOMContentLoaded', function(){
         } catch (error) {
             passwordError.textContent = error;
             passwordError.style.display = 'block';
+        } finally {
+            loginButton.disabled = false;
         }
     });
 
