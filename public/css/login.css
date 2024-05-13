@@ -73,6 +73,18 @@ input[type="password"]:hover {
     font-size: 12px;
 }
 
+.parsley-errors-list {
+    margin: 0;
+    padding: 0;
+}
+
+.parsley-errors-list li {
+    list-style-type: none;
+    color: #ff0000;
+    font-size: 12px;
+    font-weight: bold;
+}
+
 button[type="submit"] {
     width: 100%;
     padding: 10px;

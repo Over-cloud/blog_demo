@@ -8,17 +8,18 @@ document.addEventListener('DOMContentLoaded', function(){
     const passwordError = document.getElementById('password-error');
     const loginButton = document.getElementById('login-button');
 
-    /***************************** ON PAGE LOAD *****************************/
 
+    /***************************** ON PAGE LOAD *****************************/
+    $(loginForm).parsley();
 
 
     /*************************** EVENT LISTENERS ***************************/
     // show/hide password icon
     passwordInput.addEventListener('input', function() {
-        if (passwordInput.value.trim() === '') {
-            showPasswordIcon.style.display = 'none';
-        } else {
+        if (passwordInput.value.trim()) {
             showPasswordIcon.style.display = 'block';
+        } else {
+            showPasswordIcon.style.display = 'none';
         }
     });
 
@@ -35,16 +36,12 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // clear error message when input changes
     usernameInput.addEventListener('input', function() {
-        if (usernameInput.value.trim()) {
-            usernameError.style.display = 'none';
-        }
+        passwordError.style.display = 'none';
     });
 
     // clear error message when input changes
     passwordInput.addEventListener('input', function() {
-        if (passwordInput.value.trim()) {
-            passwordError.style.display = 'none';
-        }
+        passwordError.style.display = 'none';
     });
 
     //
@@ -53,22 +50,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
         loginButton.disabled = true;
         try {
-            let isInputEmpty = false;
-            if (!usernameInput.value.trim()) {
-                usernameError.style.display = 'block';
-                isInputEmpty = true;
-            }
-
-            if (!passwordInput.value.trim()) {
-                invitationInputError.textContent = 'Please enter a password.'
-                passwordError.style.display = 'block';
-                isInputEmpty = true;
-            }
-
-            if (isInputEmpty) {
-                return;
-            }
-
             const response = await fetch('/login', {
                 method: 'POST',
                 headers: {

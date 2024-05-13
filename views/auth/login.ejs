@@ -1,5 +1,8 @@
 <head>
     <link rel="stylesheet" href="/css/login.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.2/parsley.min.js"></script>
     <script type="text/javascript" defer src="/js/login-page-script.js"></script>
 </head>
 
@@ -12,14 +15,15 @@
                 <div class="login-form-group">
                     <label for="username">Username</label>
                     <div class="tooltip-icon" data-tooltip="Default: admin"></div>
-                    <input type="text" name="username" placeholder="Enter username" id="username-input">
-                    <p class="error-message" id="username-error">Please enter a username.</p>
+                    <input type="text" name="username" placeholder="Enter username" id="username-input"
+                           required data-parsley-pattern="^[a-zA-Z0-9_-]{3,16}$"
+                           data-parsley-error-message="Please enter a valid username (3-16 characters, letters, numbers, dashes, or underscores)">
                 </div>
                 <div class="login-form-group">
                     <label for="password">Password</label>
                     <div class="tooltip-icon" data-tooltip="Default: test1234"></div>
                     <div class="password-input-div">
-                        <input type="password" name="password" placeholder="Enter password" id="password-input">
+                        <input type="password" name="password" placeholder="Enter password" id="password-input" required>
                         <div id="show-password-icon" class="show-password-icon"></div>
                         <p class="error-message" id="password-error"></p>
                     </div>
