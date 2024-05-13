@@ -86,12 +86,12 @@ document.addEventListener('DOMContentLoaded', function(){
                 passwordError.style.display = 'none';
                  window.location.href = '/dashboard';
             } else {
-                passwordError.textContent = responseData.error;
+                passwordError.textContent = responseData.error || 'An error occurred. Please try again later.';
                 passwordError.style.display = 'block';
             }
 
         } catch (error) {
-            passwordError.textContent = error;
+            passwordError.textContent = 'An error occurred. Please try again later.';
             passwordError.style.display = 'block';
         } finally {
             loginButton.disabled = false;
