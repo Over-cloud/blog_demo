@@ -135,13 +135,13 @@ router.post('/login', async (request, response) => {
         const token = jwt.sign({ userId: user._id }, jwtSecret, { expiresIn: '1h' })
         response.cookie('token', token, { httpOnly: true })
 
-        response.redirect('/dashboard')
+        response.status(201).json({ message: 'Login successfully.' })
 
     } catch (error) {
         console.log(error)
         return response.status(500).json({ error: 'Internal server error.' })
     }
-})
+});
 
 // POST
 // LOGOUT

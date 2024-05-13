@@ -47,26 +47,61 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
     //
-    loginForm.addEventListener('submit', function(event) {
+    loginForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        let isInputEmpty = false;
         if (!usernameInput.value.trim()) {
-            event.preventDefault();
             usernameError.style.display = 'block';
+            isInputEmpty = true;
         }
 
         if (!passwordInput.value.trim()) {
-            event.preventDefault();
+            invitationInputError.textContent = 'Please enter a password.'
+            passwordError.style.display = 'block';
+            isInputEmpty = true;
+        }
+
+        if (isInputEmpty) {
+            return;
+        }
+
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: usernameInput.value.trim(),
+                    password: passwordInput.value.trim(),
+                })
+            });
+
+            const responseData = await response.json();
+            if (response.ok) {
+                 window.location.href = '/dashboard';
+            } else {
+                passwordError.textContent = responseData.error;
+                passwordError.style.display = 'block';
+            }
+
+        } catch (error) {
+            passwordError.textContent = error;
             passwordError.style.display = 'block';
         }
     });
 
-    // invitation code inputs
+    // Only digits are allowed; max 1 digit allowed per field
+    // After input, jump to next field; after deletion, jump to previous field
+    // When input, if previous field is empty, fillin previous
     const inputs = document.querySelectorAll('#invitation-code-inputs input');
     const invitationInputError = document.getElementById('invitation-inputs-error');
     inputs.forEach((input, index) => {
         input.addEventListener('input', function() {
             // Ensure only digits are entered
             this.value = this.value.replace(/\D/g, '');
-
+            // Clear message on input change
             invitationInputError.style.display = 'none';
 
             if (this.value.length === 1) {
@@ -75,15 +110,15 @@ document.addEventListener('DOMContentLoaded', function(){
                     first--;
                 }
 
-                if (first === index) {
-                    if (index < inputs.length - 1) {
-                        inputs[index + 1].focus();
-                    }
-                } else {
+                if (first !== index) {
+                    // If previous field is empty, fillin previous
                     inputs[first].value = this.value;
                     inputs[first + 1].focus();
                     inputs[index].value = '';
+                } else if (index < inputs.length - 1) {
+                    inputs[index + 1].focus();
                 }
+
             } else if (this.value.length === 0 && index > 0) {
                 inputs[index - 1].focus();
             }
