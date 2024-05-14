@@ -37,12 +37,13 @@ const authGuard = (request, response, next) => {
 }
 
 // rate limiting
-const maxAttempt = 5;
-const loginLimiter = rateLimit({
-    windowMs: 5 * 60 * 1000,
-    max: maxAttempt,
-    message: { error: `Too many login attempts, please try again in ${maxAttempt} minutes.` },
-});
+function customRateLimiter(retryTime, maxAttempts, errorMessage) {
+    return rateLimit({
+        windowMs: retryTime,
+        max: maxAttempts,
+        message: { error: errorMessage },
+    });
+}
 
 /***************************** GET ROUTERS *****************************/
 // GET
@@ -128,7 +129,10 @@ router.get('/edit-post/:id', authGuard, async (request, response) => {
 
 // POST
 // Login
-router.post('/login', loginLimiter, async (request, response) => {
+const loginRetryTime = 5 * 60 * 1000;
+const loginMaxAttempts = 5;
+const loginRLEMessage = `Too many login attempts, please try again in ${loginMaxAttempts} minutes.`
+router.post('/login', customRateLimiter(loginRetryTime, loginMaxAttempts, loginRLEMessage), async (request, response) => {
     try {
         const locals = {
             title: "Admin",
