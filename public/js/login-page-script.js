@@ -65,7 +65,8 @@ document.addEventListener('DOMContentLoaded', function(){
             if (response.ok) {
                 passwordError.textContent = '';
                 passwordError.style.display = 'none';
-                 window.location.href = '/dashboard';
+                loginForm.reset();
+                window.location.href = '/dashboard';
             } else {
                 passwordError.textContent = responseData.error || 'An error occurred. Please try again later.';
                 passwordError.style.display = 'block';

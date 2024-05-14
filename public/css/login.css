@@ -71,6 +71,7 @@ input[type="password"]:hover {
     display: none;
     color: #ff0000;
     font-size: 12px;
+    text-align: left;
 }
 
 .parsley-errors-list {
@@ -112,8 +113,8 @@ button[type="submit"]:hover {
 .show-password-icon {
     position: absolute;
     top: 50%;
-    right: 15px;
     transform: translateY(-50%);
+    right: 15px;
     width: 30px;
     height: 20px;
     background-image: url('/img/show_password_icon.png');
@@ -188,7 +189,7 @@ hr {
 p {
     text-align: center;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: bold;
     color: #666;
     margin-bottom: 8px;
 }
