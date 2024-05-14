@@ -45,6 +45,18 @@ function customRateLimiter(retryTime, maxAttempts, errorMessage) {
     });
 }
 
+const authRetryTime = 5 * 60 * 1000;
+const authMaxAttempts = 5;
+const authRLEMessage = `Too many login attempts, please try again in ${authMaxAttempts} minutes.`
+const authLimiterRoutes = ['/register', '/login'];
+router.use(authLimiterRoutes, customRateLimiter(authRetryTime, authMaxAttempts, authRLEMessage));
+
+const postRetryTime = 30 * 60 * 1000;
+const postMaxAttempts = 5;
+const postRLEMessage = `Too many data requests, please try again in ${postMaxAttempts} minutes.`
+const postLimiterRoutes = ['/add-post', '/edit-post/:id', '/delete-post/:id', '/restore-post/:id', '/add-invitation-code', '/delete-code/:id'];
+router.use(postLimiterRoutes, customRateLimiter(postRetryTime, postMaxAttempts, postRLEMessage));
+
 /***************************** GET ROUTERS *****************************/
 // GET
 // ADMIN - dashboard
@@ -129,10 +141,7 @@ router.get('/edit-post/:id', authGuard, async (request, response) => {
 
 // POST
 // Login
-const loginRetryTime = 5 * 60 * 1000;
-const loginMaxAttempts = 5;
-const loginRLEMessage = `Too many login attempts, please try again in ${loginMaxAttempts} minutes.`
-router.post('/login', customRateLimiter(loginRetryTime, loginMaxAttempts, loginRLEMessage), async (request, response) => {
+router.post('/login', async (request, response) => {
     try {
         const locals = {
             title: "Admin",
