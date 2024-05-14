@@ -70,6 +70,11 @@ app.use((error, request, response, next) => {
     }
 });
 
+app.get('*', (request, response, next) => {
+    response.locals.currRoute = request.path;
+    next();
+});
+
 app.use('/', visitorRouter)
 app.use('/', adminRouter)
 

@@ -38,7 +38,6 @@ router.get('', async (request, response) => {
             posts,
             pageNum,
             hasNextPage,
-            currRoute: '/',
         })
 
     } catch (error) {
@@ -62,7 +61,6 @@ router.get('/post/:id', async (request, response) => {
         response.render('post', {
             locals,
             post,
-            currRoute: `/post/${id}`,
         })
 
     } catch (error) {
@@ -79,7 +77,6 @@ router.get('/about', (request, response) => {
     }
     response.render('about', {
         locals,
-        currRoute: '/about',
     })
 })
 
@@ -92,7 +89,6 @@ router.get('/contact', (request, response) => {
     }
     response.render('contact', {
         locals,
-        currRoute: '/contact',
     })
 })
 
@@ -108,7 +104,6 @@ router.get('/login', async (request, response) => {
 
         response.render('auth/login', {
             locals,
-            currRoute: '/admin', // Unused'
             layout: loginSignupLayout,
         })
 
@@ -128,7 +123,6 @@ router.get('/signup', async (request, response) => {
 
         response.render('auth/signup', {
             locals,
-            currRoute: '/admin', // Unused'
             layout: loginSignupLayout,
         })
 
