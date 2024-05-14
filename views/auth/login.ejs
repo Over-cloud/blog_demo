@@ -13,6 +13,7 @@
         <div class="login-form-container">
             <h2>Welcome back!</h2>
             <form action="/login" method="post">
+                <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>">
                 <div class="login-form-group">
                     <label for="username">Username</label>
                     <div class="tooltip-icon" data-tooltip="Default: admin"></div>

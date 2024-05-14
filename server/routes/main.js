@@ -103,6 +103,7 @@ router.get('/login', async (request, response) => {
         const locals = {
             title: "Login",
             description: "Admin page.",
+            csrfToken: request.csrfToken(),
         }
 
         response.render('auth/login', {

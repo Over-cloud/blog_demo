@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     showNotification(responseData.error);
                 }
             } catch (error) {
-                showNotification(responseData.error);
+                showNotification(error);
             }
         });
     });

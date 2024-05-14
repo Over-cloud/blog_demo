@@ -52,11 +52,13 @@ document.addEventListener('DOMContentLoaded', function(){
         try {
             const sanitizedUsername = DOMPurify.sanitize(usernameInput.value.trim());
             const sanitizedPassword = DOMPurify.sanitize(passwordInput.value.trim());
+            const csrfToken = document.querySelector('form[action="/login"] input[name="_csrf"]').value;
 
             const response = await fetch('/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'CSRF-Token': csrfToken,
                 },
                 body: JSON.stringify({
                     username: sanitizedUsername,
@@ -69,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 passwordError.textContent = '';
                 passwordError.style.display = 'none';
                 loginForm.reset();
+                showPasswordIcon.style.display = 'none';
                 window.location.href = '/dashboard';
             } else {
                 passwordError.textContent = responseData.error || 'An error occurred. Please try again later.';
