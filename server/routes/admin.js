@@ -3,6 +3,9 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { body, validationResult } = require('express-validator')
 const router = express.Router()
+const sanitizeHtml = require('sanitize-html');
+
+// Data Schema
 const Post = require('../models/post')
 const User = require('../models/user')
 const InvitationCode = require('../models/invitation-code')
@@ -122,17 +125,20 @@ router.post('/login', async (request, response) => {
         }
 
         const { username, password } = request.body
-        const user = await User.findOne({ username })
+        const sanitizedUsername = sanitizeHtml(username.trim());
+        const sanitizedPassword = sanitizeHtml(password.trim());
+
+        const user = await User.findOne({ username: sanitizedUsername });
         if (!user) {
             return response.status(401).json({ error: 'Invalid username or password.' })
         }
 
-        const validPassword = await bcrypt.compare(password, user.password)
-        if (!validPassword) {
+        const isPasswordValid = await bcrypt.compare(sanitizedPassword, user.password)
+        if (!isPasswordValid) {
             return response.status(401).json({ error: 'Invalid username or password.' })
         }
 
-        const token = jwt.sign({ userId: user._id }, jwtSecret, { expiresIn: '1h' })
+        const token = jwt.sign({ userId: user._id }, jwtSecret, { expiresIn: '5h' }) // For development reason, change to 5h
         response.cookie('token', token, { httpOnly: true })
 
         response.status(201).json({ message: 'Login successfully.' })
