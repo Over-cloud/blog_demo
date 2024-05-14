@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const { body, validationResult } = require('express-validator')
 const router = express.Router()
 const sanitizeHtml = require('sanitize-html');
+const rateLimit = require('express-rate-limit');
 
 // Data Schema
 const Post = require('../models/post')
@@ -14,7 +15,8 @@ const adminLayout = '../views/layouts/admin-layout'
 
 const jwtSecret = process.env.JWT_SECRET
 
-// middleware - check login
+/***************************** MIDDLEWARES *****************************/
+// check if authentication is valid
 const authGuard = (request, response, next) => {
     const token = request.cookies.token
     if (!token) {
@@ -34,6 +36,14 @@ const authGuard = (request, response, next) => {
     }
 }
 
+// rate limiting
+const rateLimiter = rateLimit({
+    windowMs: 5 * 60 * 1000,
+    max: 5,
+    message: { error: 'Too many requests, please try again later.' },
+});
+
+/***************************** GET ROUTERS *****************************/
 // GET
 // ADMIN - dashboard
 router.get('/dashboard', authGuard, async (request, response) => {
@@ -117,7 +127,7 @@ router.get('/edit-post/:id', authGuard, async (request, response) => {
 
 // POST
 // Login
-router.post('/login', async (request, response) => {
+router.post('/login', rateLimiter, async (request, response) => {
     try {
         const locals = {
             title: "Admin",
