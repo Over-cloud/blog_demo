@@ -50,14 +50,17 @@ document.addEventListener('DOMContentLoaded', function(){
 
         loginButton.disabled = true;
         try {
+            const sanitizedUsername = DOMPurify.sanitize(usernameInput.value.trim());
+            const sanitizedPassword = DOMPurify.sanitize(passwordInput.value.trim());
+
             const response = await fetch('/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    username: usernameInput.value.trim(),
-                    password: passwordInput.value.trim(),
+                    username: sanitizedUsername,
+                    password: sanitizedPassword,
                 })
             });
 
