@@ -165,7 +165,7 @@ router.post('/login', async (request, response) => {
         }
 
         const token = jwt.sign({ userId: user._id }, jwtSecret, { expiresIn: '5h' }) // For development reason, change to 5h
-        response.cookie('token', token, { httpOnly: true })
+        response.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'Strict' });
 
         response.status(201).json({ message: 'Login successfully.' })
 
