@@ -12,7 +12,7 @@
             <li><a href="#deleted-post-section" class="tab-link">Deleted Posts</a></li>
             <li><a href="#invitation-code-section" class="tab-link">Invitation Code</a></li>
             <li><a href="/add-post">Add New Post</a></li>
-            <li><a href="/logout">Logout</a></li>
+            <li><a id="nav-logout">Logout</a></li>
         </ul>
     </nav>
 </header>
@@ -32,4 +32,16 @@
     <section class="dashboard-section"  id="invitation-code-section">
         <%- include('dashboard-sections/invitation-codes.ejs') %>
     </section>
+</div>
+
+<div id="logout-overlay" class="overlay">
+    <div class="panel">
+        <h2>Confirm Logout</h2>
+        <form action="/logout" method="post">
+            <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>">
+            <p class="error-message" id="logout-error"></p>
+            <button id="cancel-logout">Cancel</button>
+            <button type="submit" id="confirm-logout">Logout</button>
+        </form>
+    </div>
 </div>
