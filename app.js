@@ -57,8 +57,9 @@ app.use(express.json())
 // CSRF token middleware
 app.use(csrf({ cookie: true }));
 app.use((request, response, next) => {
-    console.log("middleware checking")
-    response.locals.csrfToken = request.csrfToken();
+    if (request.method !== 'GET') {
+        response.locals.csrfToken = request.csrfToken();
+    }
     next();
 });
 
