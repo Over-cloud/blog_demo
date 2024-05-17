@@ -73,11 +73,14 @@ document.addEventListener('DOMContentLoaded', function(){
             return;
         }
 
+        const csrfToken = document.querySelector('form[action="/add-invitation-code"] input[name="_csrf"]').value;
+
         try {
             const response = await fetch('/add-invitation-code', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'CSRF-Token': csrfToken,
                 },
                 body: JSON.stringify({
                     'invitation-code-1': outputs[0].value,
@@ -112,11 +115,13 @@ document.addEventListener('DOMContentLoaded', function(){
 
             const action = form.getAttribute('action');
             const codeId = action.split('/').pop();
+            const csrfToken = document.querySelector('form[action^="delete-code/"] input[name="_csrf"]').value;
             try {
                 const response = await fetch(action, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
+                        'CSRF-Token': csrfToken,
                     }
                 });
 

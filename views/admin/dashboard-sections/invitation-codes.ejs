@@ -27,6 +27,7 @@
                 <div class="dashboard-post-controls">
                     <button class="btn btn-copy">
                     <form class="" action="delete-code/<%= codeEntry._id %>?_method=DELETE" method="post">
+                        <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>">
                         <button type="submit" value="Delete" class="btn btn-delete">
                     </form>
                 </div>
@@ -41,6 +42,7 @@
         <h2>Generate Invitation Code</h2>
         <button id="close-btn">Close</button>
         <form action="/add-invitation-code" method="post">
+            <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>">
             <div id="invitation-code-outputs">
                 <input type="text" maxlength="1" size="1" name="invitation-code-1" placeholder="-">
                 <input type="text" maxlength="1" size="1" name="invitation-code-2" placeholder="-">
