@@ -5,6 +5,8 @@
 </div>
 
 <form class="" action="/add-post" method="post">
+    <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>">
+
     <label for="title"><b>TITLE</b></label>
     <input type="text" name="title" placeholder="Give it a title.">
 

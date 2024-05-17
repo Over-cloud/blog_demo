@@ -56,12 +56,6 @@ app.use(express.json())
 
 // CSRF token middleware
 app.use(csrf({ cookie: true }));
-app.use((request, response, next) => {
-    if (request.method !== 'GET') {
-        response.locals.csrfToken = request.csrfToken();
-    }
-    next();
-});
 
 app.use((error, request, response, next) => {
     if (error.code === 'EBADCSRFTOKEN') {

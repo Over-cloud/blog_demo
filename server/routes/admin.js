@@ -63,13 +63,13 @@ router.use(postLimiterRoutes, customRateLimiter(postRetryTime, postMaxAttempts, 
 // GET
 // ADMIN - dashboard
 router.get('/dashboard', authGuard, async (request, response) => {
-    try {
-        const locals = {
-            title: "Admin",
-            description: "Admin page.",
-            csrfToken: request.csrfToken(),
-        }
+    const locals = {
+        title: "Add Post",
+        description: "Create a new post.",
+        csrfToken: request.csrfToken(),
+    }
 
+    try {
         const postPerPage = 5
 
         const pageNum = request.query.page || 0
@@ -106,6 +106,7 @@ router.get('/add-post', authGuard, async (request, response) => {
     const locals = {
         title: "Add Post",
         description: "Create a new post.",
+        csrfToken: request.csrfToken(),
     }
 
     response.render('admin/add-post', {
@@ -120,6 +121,7 @@ router.get('/edit-post/:id', authGuard, async (request, response) => {
     const locals = {
         title: "Edit Post",
         description: "Edit an existing post.",
+        csrfToken: request.csrfToken(),
     }
 
     const postId = request.params.id

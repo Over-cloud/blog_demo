@@ -119,6 +119,7 @@ router.get('/signup', async (request, response) => {
         const locals = {
             title: "Signup",
             description: "Admin page.",
+            csrfToken: request.csrfToken(),
         }
 
         response.render('auth/signup', {
