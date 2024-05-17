@@ -1,3 +1,5 @@
+@import url('components/notification.css');
+
 /* Dashboard Header */
 .dashboard-header {
     background-color: #333;
@@ -227,30 +229,4 @@
     height: 40px;
     text-align: center;
     margin-right: 5px;
-}
-
-.notification {
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    bottom: 30px;
-    right: 20px;
-    background-color: #fff;
-    color: #333;
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 15px;
-    display: none;
-    z-index: 999;
-}
-
-.notification button {
-    background-color: transparent;
-    border: none;
-    width: 15px;
-    height: 15px;
-    padding: 0px;
-    color: #333;
-    font-size: 18px;
-    cursor: pointer;
 }
