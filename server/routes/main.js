@@ -100,6 +100,7 @@ router.get('/login', async (request, response) => {
             title: "Login",
             description: "Admin page.",
             csrfToken: request.csrfToken(),
+            message: request.query.message,
         }
 
         response.render('auth/login', {

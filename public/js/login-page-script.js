@@ -7,10 +7,20 @@ document.addEventListener('DOMContentLoaded', function(){
     const usernameError = document.getElementById('username-error');
     const passwordError = document.getElementById('password-error');
     const loginButton = document.getElementById('login-button');
+    const notification = document.getElementById('login-notification');
+    const notificationContent = notification.querySelector('span');
+    const notificationClose = notification.querySelector('button');
 
 
     /***************************** ON PAGE LOAD *****************************/
     $(loginForm).parsley();
+
+    const { message } = getQueryParams();
+    const messageContent = getMessageText(message);
+    if (messageContent != '') {
+        notificationContent.textContent = messageContent;
+        notification.style.display = 'block';
+    }
 
 
     /*************************** EVENT LISTENERS ***************************/
@@ -135,8 +145,28 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     });
 
+    notificationClose.addEventListener('click', function(event) {
+        event.preventDefault();
+        notification.style.display = 'none';
+    })
+
 
     /*************************** HELPER FUNCTIONS ***************************/
+    function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            message: params.get('message')
+        };
+    }
 
-
+    function getMessageText(message) {
+        switch(message) {
+            case 'TokenExpired':
+                return 'Your session has expired. Please log in again.';
+            case 'InvalidToken':
+                return 'Invalid credentials. Please retry log in.';
+            default:
+                return '';
+        }
+    }
 });

@@ -22,7 +22,7 @@ const jwtSecret = process.env.JWT_SECRET
 const authGuard = (request, response, next) => {
     const token = request.cookies.token
     if (!token) {
-        return response.status(401).json({ error: 'Unauthorized.' })
+        return response.redirect('/login?message=NoToken');
     }
 
     try {
@@ -31,9 +31,9 @@ const authGuard = (request, response, next) => {
         next()
     } catch(error) {
         if (error.name === 'TokenExpiredError') {
-            return response.status(401).json({ error: 'Session expired.' });
+            return response.redirect('/login?message=TokenExpired');
         } else {
-            return response.status(401).json({ error: 'Unauthorized.' });
+            return response.redirect('/login?message=InvalidToken');
         }
     }
 }
