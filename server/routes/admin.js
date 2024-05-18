@@ -72,13 +72,13 @@ router.get('/dashboard', authGuard, async (request, response) => {
     try {
         const postPerPage = 5
 
-        const pageNum = request.query.page || 0
+        const pageNum = parseInt(request.query.page, 10) || 0
         const { posts, postCnt } = await Post.getByPage({ pageNum, postPerPage })
         const hasNextPage = (pageNum + 1) * postPerPage < postCnt
 
-        const deletedPageNum = request.query.deletedPage || 0
+        const deletedPageNum = parseInt(request.query.deletedPage, 10) || 0
         const {posts: deletedPosts, postCnt: deletedPostCnt} = await Post.getDeletedByPage({ pageNum: deletedPageNum, postPerPage })
-        const hasNextDeletedPage = (pageNum + 1) * postPerPage < deletedPostCnt
+        const hasNextDeletedPage = (deletedPageNum + 1) * postPerPage < deletedPostCnt
 
         const { codes, codeCnt } = await InvitationCode.get();
 
