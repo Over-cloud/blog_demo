@@ -18,7 +18,7 @@ PostSchema.statics.count = async function(countCriteria) {
 }
 
 PostSchema.statics.getByPage = async function(params) {
-    const pageNum = params.pageNum || 0
+    const pageNum = (params.pageNum || 1) - 1
     const postPerPage = params.postPerPage || 5
     const sortCriteria = params.sortCriteria || { createdAt: -1 }
     const defaultSelect = {

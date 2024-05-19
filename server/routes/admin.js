@@ -54,10 +54,12 @@ const authLimiterRoutes = ['/register', '/login'];
 router.use(authLimiterRoutes, customRateLimiter(authRetryTime, authMaxAttempts, authRLEMessage));
 
 const postRetryTime = 30 * 60 * 1000;
-const postMaxAttempts = 5;
+const postMaxAttempts = 50; // Develop, change to 50
 const postRLEMessage = `Too many data requests, please try again in ${postMaxAttempts} minutes.`
 const postLimiterRoutes = ['/add-post', '/edit-post/:id', '/delete-post/:id', '/restore-post/:id', '/add-invitation-code', '/delete-code/:id'];
 router.use(postLimiterRoutes, customRateLimiter(postRetryTime, postMaxAttempts, postRLEMessage));
+
+const parsePageNumber = (queryParam) => parseInt(queryParam, 10) || 0;
 
 /***************************** GET ROUTERS *****************************/
 // GET
@@ -72,11 +74,16 @@ router.get('/dashboard', authGuard, async (request, response) => {
     try {
         const postPerPage = 5
 
-        const pageNum = parseInt(request.query.page, 10) || 0
-        const { posts, postCnt } = await Post.getByPage({ pageNum, postPerPage })
-        const hasNextPage = (pageNum + 1) * postPerPage < postCnt
+        const activePageNum = parsePageNumber(request.query.page);
+        const { posts: activePosts, postCnt: activePostCnt } = await Post.getByPage({ pageNum: activePageNum, postPerPage });
+        const totalActivePages = Math.ceil(activePostCnt / postPerPage);
+        const activePostsData = {
+            pageNum: activePageNum,
+            totalPages: totalActivePages,
+            posts: activePosts,
+        };
 
-        const deletedPageNum = parseInt(request.query.deletedPage, 10) || 0
+        const deletedPageNum = parsePageNumber(request.query.deletedPage)
         const {posts: deletedPosts, postCnt: deletedPostCnt} = await Post.getDeletedByPage({ pageNum: deletedPageNum, postPerPage })
         const hasNextDeletedPage = (deletedPageNum + 1) * postPerPage < deletedPostCnt
 
@@ -84,9 +91,7 @@ router.get('/dashboard', authGuard, async (request, response) => {
 
         response.render('admin/dashboard', {
             locals,
-            posts,
-            pageNum,
-            hasNextPage,
+            activePostsData,
             deletedPosts,
             deletedPageNum,
             hasNextDeletedPage,
@@ -167,7 +172,7 @@ router.post('/login', async (request, response) => {
             return response.status(401).json({ error: 'Invalid username or password.' })
         }
 
-        const token = jwt.sign({ userId: user._id }, jwtSecret, { expiresIn: '5h' }) // For development reason, change to 5h
+        const token = jwt.sign({ userId: user._id }, jwtSecret, { expiresIn: '5h' }) // Develop, change to 5h
         response.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'Strict' });
 
         response.status(201).json({ message: 'Login successfully.' })

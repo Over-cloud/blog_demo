@@ -1,15 +1,11 @@
-<div class="dashboard-title">
-    <h2>Manage Posts</h2>
-</div>
 <div class="dashboard-content">
-    <% if (pageNum > 0) { %>
-        <a href="?page=<%= pageNum - 1 %>&deletedPage=<%= deletedPageNum %>" class="pagination">
-            &lt; View Recent Posts
-        </a>
-    <% } %>
+
+    <div class="dashboard-title">
+        <h2>Manage Posts</h2>
+    </div>
 
     <ul class="dashboard-post-ul">
-        <% posts.forEach(post => { %>
+        <% activePostsData.posts.forEach(post => { %>
             <li>
                 <div class="dashboard-post-info">
                     <a href="post/<%= post._id %>">
@@ -31,9 +27,24 @@
         <% }) %>
     </ul>
 
-    <% if (hasNextPage) { %>
-        <a href="?page=<%= pageNum + 1 %>&deletedPage=<%= deletedPageNum %>" class="pagination">
-            View Older Posts &gt;
-        </a>
-    <% } %>
+    <div class="pagination-controls">
+        <ul class="pagination-list">
+            <% if (activePostsData.pageNum > 1) { %>
+                <li>
+                    <a href="?page=<%= activePostsData.pageNum - 1 %>" class="pagination-link">&lt;</a>
+                </li>
+            <% } %>
+            <% for (let i = 1; i <= activePostsData.totalPages; i++) { %>
+                <li>
+                    <a href="?page=<%= i %> %>" class="pagination-link <%= i === activePostsData.pageNum ? 'active' : '' %>"><%= i %></a>
+                </li>
+            <% } %>
+            <% if (activePostsData.pageNum < activePostsData.totalPages) { %>
+                <li>
+                    <a href="?page=<%= activePostsData.pageNum + 1 %> %>" class="pagination-link">&gt;</a>
+                </li>
+            <% } %>
+        </ul>
+    </div>
+
 </div>
