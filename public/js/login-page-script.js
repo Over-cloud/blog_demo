@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function(){
     /*************************** SELECT ELEMENTS ***************************/
+    // Login form elements
     const loginForm = document.querySelector('form[action="/login"]');
     const usernameInput = document.getElementById('username-input');
     const passwordInput = document.getElementById('password-input');
@@ -7,6 +8,11 @@ document.addEventListener('DOMContentLoaded', function(){
     const usernameError = document.getElementById('username-error');
     const passwordError = document.getElementById('password-error');
     const loginButton = document.getElementById('login-button');
+    // Invitation code form elements
+    const invitationForm = document.querySelector('form[action="/verify-invitation-code"]');
+    const inputList = invitationForm.querySelectorAll('input');
+    const invitationInputError = invitationForm.querySelector('#invitation-inputs-error');
+    // Notification elements
     const notification = document.getElementById('login-notification');
     const notificationContent = notification.querySelector('span');
     const notificationClose = notification.querySelector('button');
@@ -99,9 +105,7 @@ document.addEventListener('DOMContentLoaded', function(){
     // Only digits are allowed; max 1 digit allowed per field
     // After input, jump to next field; after deletion, jump to previous field
     // When input, if previous field is empty, fillin previous
-    const inputs = document.querySelectorAll('#invitation-code-inputs input');
-    const invitationInputError = document.getElementById('invitation-inputs-error');
-    inputs.forEach((input, index) => {
+    inputList.forEach((input, index) => {
         input.addEventListener('input', function() {
             // Ensure only digits are entered
             this.value = this.value.replace(/\D/g, '');
@@ -110,36 +114,28 @@ document.addEventListener('DOMContentLoaded', function(){
 
             if (this.value.length === 1) {
                 let first = index;
-                while (first > 0 && inputs[first - 1].value.length === 0) {
+                while (first > 0 && inputList[first - 1].value.length === 0) {
                     first--;
                 }
 
                 if (first !== index) {
                     // If previous field is empty, fillin previous
-                    inputs[first].value = this.value;
-                    inputs[first + 1].focus();
-                    inputs[index].value = '';
-                } else if (index < inputs.length - 1) {
-                    inputs[index + 1].focus();
+                    inputList[first].value = this.value;
+                    inputList[first + 1].focus();
+                    inputList[index].value = '';
+                } else if (index < inputList.length - 1) {
+                    inputList[index + 1].focus();
                 }
 
             } else if (this.value.length === 0 && index > 0) {
-                inputs[index - 1].focus();
+                inputList[index - 1].focus();
             }
         });
     });
 
     // submit invitation code
-    const invitationForm = document.querySelector('form[action="/verify-invitation-code"]');
     invitationForm.addEventListener('submit', function(event) {
-        let isInputValid = true;
-        inputs.forEach(input => {
-            if (input.value.length !== 1) {
-                isInputValid = false;
-            }
-        });
-
-        if (!isInputValid) {
+        if (hasEmptyfields(inputList)) {
             event.preventDefault();
             invitationInputError.style.display = 'block';
         }
@@ -168,5 +164,9 @@ document.addEventListener('DOMContentLoaded', function(){
             default:
                 return '';
         }
+    }
+
+    function hasEmptyfields(nodeList) {
+        return Array.from(nodeList).some(ele => ele.value.length === 0);
     }
 });
