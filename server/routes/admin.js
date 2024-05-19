@@ -61,6 +61,12 @@ router.use(postLimiterRoutes, customRateLimiter(postRetryTime, postMaxAttempts, 
 
 const parsePageNumber = (queryParam) => parseInt(queryParam, 10) || 1;
 
+const parsePostsData = async (pageNum, postPerPage, getPostsFunc) => {
+    const { posts, postCnt } = await getPostsFunc({ pageNum, postPerPage });
+    const totalPages = Math.ceil(postCnt / postPerPage);
+    return { pageNum, totalPages, posts };
+};
+
 /***************************** GET ROUTERS *****************************/
 // GET
 // ADMIN - dashboard
@@ -75,22 +81,10 @@ router.get('/dashboard', authGuard, async (request, response) => {
         const postPerPage = 5
 
         const activePageNum = parsePageNumber(request.query.page);
-        const { posts: activePosts, postCnt: activePostCnt } = await Post.getByPage({ pageNum: activePageNum, postPerPage });
-        const totalActivePages = Math.ceil(activePostCnt / postPerPage);
-        const activePostsData = {
-            pageNum: activePageNum,
-            totalPages: totalActivePages,
-            posts: activePosts,
-        };
+        const activePostsData = await parsePostsData(activePageNum, postPerPage, Post.getByPage.bind(Post));
 
         const deletedPageNum = parsePageNumber(request.query.deletedPage);
-        const { posts: deletedPosts, postCnt: deletedPostCnt } = await Post.getDeletedByPage({ pageNum: deletedPageNum, postPerPage });
-        const totalDeletedPages = Math.ceil(deletedPostCnt / postPerPage);
-        const deletedPostsData = {
-            pageNum: deletedPageNum,
-            totalPages: totalDeletedPages,
-            posts: deletedPosts,
-        };
+        const deletedPostsData = await parsePostsData(deletedPageNum, postPerPage, Post.getDeletedByPage.bind(Post));
 
         const { codes, codeCnt } = await InvitationCode.get();
 
