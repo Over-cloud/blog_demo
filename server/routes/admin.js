@@ -59,7 +59,7 @@ const postRLEMessage = `Too many data requests, please try again in ${postMaxAtt
 const postLimiterRoutes = ['/add-post', '/edit-post/:id', '/delete-post/:id', '/restore-post/:id', '/add-invitation-code', '/delete-code/:id'];
 router.use(postLimiterRoutes, customRateLimiter(postRetryTime, postMaxAttempts, postRLEMessage));
 
-const parsePageNumber = (queryParam) => parseInt(queryParam, 10) || 0;
+const parsePageNumber = (queryParam) => parseInt(queryParam, 10) || 1;
 
 /***************************** GET ROUTERS *****************************/
 // GET
@@ -83,18 +83,21 @@ router.get('/dashboard', authGuard, async (request, response) => {
             posts: activePosts,
         };
 
-        const deletedPageNum = parsePageNumber(request.query.deletedPage)
-        const {posts: deletedPosts, postCnt: deletedPostCnt} = await Post.getDeletedByPage({ pageNum: deletedPageNum, postPerPage })
-        const hasNextDeletedPage = (deletedPageNum + 1) * postPerPage < deletedPostCnt
+        const deletedPageNum = parsePageNumber(request.query.deletedPage);
+        const { posts: deletedPosts, postCnt: deletedPostCnt } = await Post.getDeletedByPage({ pageNum: deletedPageNum, postPerPage });
+        const totalDeletedPages = Math.ceil(deletedPostCnt / postPerPage);
+        const deletedPostsData = {
+            pageNum: deletedPageNum,
+            totalPages: totalDeletedPages,
+            posts: deletedPosts,
+        };
 
         const { codes, codeCnt } = await InvitationCode.get();
 
         response.render('admin/dashboard', {
             locals,
             activePostsData,
-            deletedPosts,
-            deletedPageNum,
-            hasNextDeletedPage,
+            deletedPostsData,
             codes,
             codeCnt,
             layout: adminLayout,
