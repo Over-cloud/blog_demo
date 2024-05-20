@@ -1,3 +1,4 @@
+@import url('components/input-list.css');
 @import url('components/notification.css');
 
 .login-page-container {
@@ -55,7 +56,6 @@ label {
 
 input[type="text"],
 input[type="password"] {
-    width: 100%;
     padding: 10px;
     margin-bottom: 5px;
     border: 1px solid #ccc;
@@ -194,15 +194,4 @@ p {
     font-weight: bold;
     color: #666;
     margin-bottom: 8px;
-}
-
-.invitation-code-inputs {
-    display: inline-flex;
-}
-
-.invitation-code-inputs input {
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    margin-right: 5px;
 }
