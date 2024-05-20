@@ -41,7 +41,7 @@
     <div class="panel">
         <h2>Generate Invitation Code</h2>
         <button id="close-btn">Close</button>
-        <form action="/add-invitation-code" method="post">
+        <form action="/add-invitation-code" method="post" autocomplete="off">
             <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>">
             <div class="invitation-code-inputs">
                 <input type="text" maxlength="1" size="1" name="invitation-code-1" placeholder="-">

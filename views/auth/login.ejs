@@ -34,7 +34,7 @@
             </form>
             <hr>
             <p>Or</p>
-            <form action="/verify-invitation-code" method="post">
+            <form action="/verify-invitation-code" method="post" autocomplete="off">
                 <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>">
                 <button type="submit">Signup with Invitation Code</button>
                 <div class="login-form-group">
