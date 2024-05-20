@@ -1,3 +1,4 @@
+@import url('components/input-list.css');
 @import url('components/notification.css');
 @import url('components/pagination.css');
 
@@ -219,15 +220,4 @@
     position: absolute;
     top: 10px;
     right: 10px;
-}
-
-#invitation-code-outputs {
-    display: inline-flex;
-}
-
-#invitation-code-outputs input {
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    margin-right: 5px;
 }

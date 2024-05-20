@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const loginButton = document.getElementById('login-button');
     // Invitation code form elements
     const invitationForm = document.querySelector('form[action="/verify-invitation-code"]');
-    const inputList = invitationForm.querySelectorAll('input');
+    const inputList = invitationForm.querySelectorAll('.invitation-code-inputs input');
     const invitationInputError = invitationForm.querySelector('#invitation-inputs-error');
     // Notification elements
     const notification = document.getElementById('login-notification');
@@ -27,8 +27,6 @@ document.addEventListener('DOMContentLoaded', function(){
         notificationContent.textContent = messageContent;
         notification.style.display = 'block';
     }
-
-
     /*************************** EVENT LISTENERS ***************************/
     // show/hide password icon
     passwordInput.addEventListener('input', function() {

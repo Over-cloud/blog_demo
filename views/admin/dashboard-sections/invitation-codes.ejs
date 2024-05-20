@@ -43,7 +43,7 @@
         <button id="close-btn">Close</button>
         <form action="/add-invitation-code" method="post">
             <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>">
-            <div id="invitation-code-outputs">
+            <div class="invitation-code-inputs">
                 <input type="text" maxlength="1" size="1" name="invitation-code-1" placeholder="-">
                 <input type="text" maxlength="1" size="1" name="invitation-code-2" placeholder="-">
                 <input type="text" maxlength="1" size="1" name="invitation-code-3" placeholder="-">

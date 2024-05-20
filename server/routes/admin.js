@@ -317,7 +317,6 @@ router.post('/add-invitation-code', authGuard, async (request, response) => {
         // If the code exists, show warning
         const existingCode = await InvitationCode.findOne({ code });
         if (existingCode) {
-            console.log('Find key' + code);
             return response.status(400).json({ error: 'Invitation code already exists.' });
         }
 

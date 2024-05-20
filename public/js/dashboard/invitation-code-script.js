@@ -3,9 +3,10 @@ document.addEventListener('DOMContentLoaded', function(){
     const generateCodeBtn = document.getElementById('generate-invitation-code-btn');
     const overlay = document.getElementById('overlay');
     const closeBtn = document.getElementById('close-btn');
+    // Add invitation code form
     const addCodeForm = document.querySelector('form[action="/add-invitation-code"]');
-    const outputs = document.querySelectorAll('#invitation-code-outputs input');
-    const invitationOutputError = document.getElementById('invitation-outputs-error');
+    const codeList = addCodeForm.querySelectorAll('.invitation-code-inputs input');
+    const invitationOutputError = addCodeForm.querySelector('.error-message');
 
     /*************************** ON PAGE LOAD ***************************/
     if (sessionStorage.getItem('codeOverlay') === 'show') {
@@ -28,8 +29,8 @@ document.addEventListener('DOMContentLoaded', function(){
     closeBtn.addEventListener('click', closeOverlay);
 
     // Ensure consecutive inputs
-    outputs.forEach((output, index) => {
-        output.addEventListener('input', function() {
+    codeList.forEach((code, index) => {
+        code.addEventListener('input', function() {
             // Ensure only digits are entered
             this.value = this.value.replace(/\D/g, '');
 
@@ -37,21 +38,21 @@ document.addEventListener('DOMContentLoaded', function(){
 
             if (this.value.length === 1) {
                 let first = index;
-                while (first > 0 && outputs[first - 1].value.length === 0) {
+                while (first > 0 && codeList[first - 1].value.length === 0) {
                     first--;
                 }
 
                 if (first === index) {
-                    if (index < outputs.length - 1) {
-                        outputs[index + 1].focus();
+                    if (index < codeList.length - 1) {
+                        codeList[index + 1].focus();
                     }
                 } else {
-                    outputs[first].value = this.value;
-                    outputs[first + 1].focus();
-                    outputs[index].value = '';
+                    codeList[first].value = this.value;
+                    codeList[first + 1].focus();
+                    codeList[index].value = '';
                 }
             } else if (this.value.length === 0 && index > 0) {
-                outputs[index - 1].focus();
+                codeList[index - 1].focus();
             }
         });
     });
@@ -60,14 +61,7 @@ document.addEventListener('DOMContentLoaded', function(){
     addCodeForm.addEventListener('submit', async function(event) {
         event.preventDefault();
 
-        let isOutputValid = true;
-        outputs.forEach(output => {
-            if (output.value.length !== 1) {
-                isOutputValid = false;
-            }
-        });
-
-        if (!isOutputValid) {
+        if (hasEmptyfields(codeList)) {
             invitationOutputError.textContent = 'Must be a 4-digit code.'
             invitationOutputError.style.display = 'block';
             return;
@@ -83,10 +77,10 @@ document.addEventListener('DOMContentLoaded', function(){
                     'CSRF-Token': csrfToken,
                 },
                 body: JSON.stringify({
-                    'invitation-code-1': outputs[0].value,
-                    'invitation-code-2': outputs[1].value,
-                    'invitation-code-3': outputs[2].value,
-                    'invitation-code-4': outputs[3].value,
+                    'invitation-code-1': codeList[0].value,
+                    'invitation-code-2': codeList[1].value,
+                    'invitation-code-3': codeList[2].value,
+                    'invitation-code-4': codeList[3].value,
                 })
             });
 
@@ -169,16 +163,16 @@ document.addEventListener('DOMContentLoaded', function(){
     // Fill in the invitation code
     function fillInCode() {
         invitationOutputError.style.display = 'none';
-        const number = generateCode(outputs.length);
-        outputs.forEach((output, index) => {
-            output.value = number[index];
+        const number = generateCode(codeList.length);
+        codeList.forEach((code, index) => {
+            code.value = number[index];
         })
     }
 
     // Clear the invitation code
     function clearCode() {
-        outputs.forEach((output, index) => {
-            output.value = '';
+        codeList.forEach((code, index) => {
+            code.value = '';
         })
     }
 
@@ -202,5 +196,9 @@ document.addEventListener('DOMContentLoaded', function(){
         notification.style.display = 'none';
 
         sessionStorage.setItem('notification', 'hide');
+    }
+
+    function hasEmptyfields(nodeList) {
+        return Array.from(nodeList).some(ele => ele.value.length === 0);
     }
 });
