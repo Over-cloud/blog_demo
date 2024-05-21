@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', function(){
     const invitationForm = document.querySelector('form[action="/verify-invitation-code"]');
     const inputList = invitationForm.querySelectorAll('.invitation-code-inputs input');
     const invitationInputError = invitationForm.querySelector('#invitation-inputs-error');
-    // Notification elements
-    const notification = document.getElementById('login-notification');
-    const notificationContent = notification.querySelector('span');
-    const notificationClose = notification.querySelector('button');
+    // Toast notification elements
+    const toastNotification = document.getElementById('login-toast-notification');
+    const toastNotificationMessage = toastNotification.querySelector('span');
+    const toastNotificationClose = toastNotification.querySelector('button');
 
 
     /***************************** ON PAGE LOAD *****************************/
@@ -24,8 +24,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const { message } = getQueryParams();
     const messageContent = getMessageText(message);
     if (messageContent != '') {
-        notificationContent.textContent = messageContent;
-        notification.style.display = 'block';
+        showToastNotification(messageContent);
     }
     /*************************** EVENT LISTENERS ***************************/
     // show/hide password icon
@@ -139,10 +138,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     });
 
-    notificationClose.addEventListener('click', function(event) {
-        event.preventDefault();
-        notification.style.display = 'none';
-    })
+    toastNotificationClose.addEventListener('click', hideNotification);
 
 
     /*************************** HELPER FUNCTIONS ***************************/
@@ -166,5 +162,16 @@ document.addEventListener('DOMContentLoaded', function(){
 
     function hasEmptyfields(nodeList) {
         return Array.from(nodeList).some(ele => ele.value.length === 0);
+    }
+
+    function showToastNotification(messageData) {
+        toastNotification.style.display = 'block';
+        toastNotificationMessage.textContent = messageData;
+
+        setTimeout(() => hideNotification(), 5000);
+    }
+
+    function hideNotification() {
+        toastNotification.style.display = 'none';
     }
 });

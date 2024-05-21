@@ -6,16 +6,27 @@ document.addEventListener('DOMContentLoaded', function(){
     // Add invitation code form
     const addCodeForm = document.querySelector('form[action="/add-invitation-code"]');
     const codeList = addCodeForm.querySelectorAll('.invitation-code-inputs input');
-    const invitationOutputError = addCodeForm.querySelector('.error-message');
+    const codeMessage = addCodeForm.querySelector('.message');
+    // Toast notification
+    const toastNotification = document.getElementById('invitation-code-toast-notification');
+    const toastNotificationMessage = toastNotification.querySelector('span');
+    const toastNotificationClose = toastNotification.querySelector('button');
+
 
     /*************************** ON PAGE LOAD ***************************/
     if (sessionStorage.getItem('codeOverlay') === 'show') {
         openOverlay();
     }
 
-    if (sessionStorage.getItem('notification') === 'show') {
-        showNotification(sessionStorage.getItem('notification-message'));
+    const toastNotificationHistory = sessionStorage.getItem('toast-notification-history');
+    if (toastNotificationHistory) {
+        const parsedHistory = JSON.parse(toastNotificationHistory);
+        if (parsedHistory.display === 'show') {
+            showToastNotification(parsedHistory.content);
+        }
     }
+
+
 
     /*************************** EVENT LISTENERS ***************************/
     // Initialize overlay
@@ -34,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function(){
             // Ensure only digits are entered
             this.value = this.value.replace(/\D/g, '');
 
-            invitationOutputError.style.display = 'none';
+            hideMessage();
 
             if (this.value.length === 1) {
                 let first = index;
@@ -62,8 +73,7 @@ document.addEventListener('DOMContentLoaded', function(){
         event.preventDefault();
 
         if (hasEmptyfields(codeList)) {
-            invitationOutputError.textContent = 'Must be a 4-digit code.'
-            invitationOutputError.style.display = 'block';
+            showMessage('Must be a 4-digit code.', 'error');
             return;
         }
 
@@ -86,18 +96,15 @@ document.addEventListener('DOMContentLoaded', function(){
 
             const responseData = await response.json();
             if (response.ok) {
-                invitationOutputError.textContent = responseData.message;
-                invitationOutputError.style.display = 'block';
+                showMessage(responseData.message, 'success');
                 clearCode();
 
                 location.reload();
             } else {
-                invitationOutputError.textContent = responseData.error;
-                invitationOutputError.style.display = 'block';
+                showMessage(responseData.error, 'error');
             }
         } catch (error) {
-            invitationOutputError.textContent = error;
-            invitationOutputError.style.display = 'block';
+            showMessage(error, 'error');
         }
     });
 
@@ -121,20 +128,19 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 const responseData = await response.json();
                 if (response.ok) {
-                    showNotification(responseData.message);
+                    showToastNotification(responseData.message);
 
                     location.reload();
                 } else {
-                    showNotification(responseData.error);
+                    showToastNotification(responseData.error);
                 }
             } catch (error) {
-                showNotification(error);
+                showToastNotification(error);
             }
         });
     });
 
-    const deleteCodeMsgCloseBtn = document.getElementById('delete-code-message-close');
-    deleteCodeMsgCloseBtn.addEventListener('click', hideNotification);
+    toastNotificationClose.addEventListener('click', hideNotification);
 
 
     /*************************** HELPER FUNCTIONS ***************************/
@@ -162,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // Fill in the invitation code
     function fillInCode() {
-        invitationOutputError.style.display = 'none';
+        hideMessage();
         const number = generateCode(codeList.length);
         codeList.forEach((code, index) => {
             code.value = number[index];
@@ -176,29 +182,40 @@ document.addEventListener('DOMContentLoaded', function(){
         })
     }
 
-    // Display the notification message
-    function showNotification(messageData) {
-        const notification = document.getElementById('delete-code-notification');
-        const message = document.getElementById('delete-code-message');
+    function showToastNotification(messageData) {
+        toastNotification.style.display = 'block';
+        toastNotificationMessage.textContent = messageData;
 
-        message.textContent = messageData;
-        notification.style.display = 'block';
-
-        sessionStorage.setItem('notification', 'show');
-        sessionStorage.setItem('notification-message', messageData);
+        sessionStorage.setItem('toast-notification-history', JSON.stringify({
+            display: 'show',
+            content: messageData,
+        }));
 
         setTimeout(() => hideNotification(), 5000);
     }
 
-    // Hide the notification message
     function hideNotification() {
-        const notification = document.getElementById('delete-code-notification');
-        notification.style.display = 'none';
+        toastNotification.style.display = 'none';
 
-        sessionStorage.setItem('notification', 'hide');
+        sessionStorage.setItem('toast-notification-history', JSON.stringify({
+            display: 'hide',
+            content: '',
+        }));
     }
 
     function hasEmptyfields(nodeList) {
         return Array.from(nodeList).some(ele => ele.value.length === 0);
+    }
+
+    function showMessage(text, style) {
+        codeMessage.textContent = text;
+        codeMessage.classList.add(style);
+        codeMessage.style.display = 'block';
+    }
+
+    function hideMessage() {
+        codeMessage.textContent = '';
+        codeMessage.classList.remove('success', 'notification', 'warning', 'error');
+        codeMessage.style.display = 'none';
     }
 });

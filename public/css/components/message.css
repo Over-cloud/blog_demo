@@ -1,0 +1,65 @@
+.message {
+    display: none;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Success message styles */
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.message.success::before {
+    content: "✔";
+    color: #155724;
+}
+
+/* Notification message styles */
+.message.notification {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.message.notification::before {
+    content: "\24D8";
+    color: #0c5460;
+}
+
+/* Warning message styles */
+.message.warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.message.warning::before {
+    content: "\26A0";
+    color: #856404;
+}
+
+/* Error message styles */
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.message.error::before {
+    content: "\26D4";
+    color: #721c24;
+}
+
+.message::before {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
