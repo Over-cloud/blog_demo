@@ -50,7 +50,7 @@
 }
 
 .message.error::before {
-    content: "\26D4";
+    content: "\1F6AB";
     color: #721c24;
 }
 

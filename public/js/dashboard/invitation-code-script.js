@@ -16,13 +16,21 @@ document.addEventListener('DOMContentLoaded', function(){
     /*************************** ON PAGE LOAD ***************************/
     if (sessionStorage.getItem('codeOverlay') === 'show') {
         openOverlay();
+
+        const messageHistory = sessionStorage.getItem('message-history');
+        if (messageHistory) {
+            const parsedHistory = JSON.parse(messageHistory);
+            if (parsedHistory.display === 'show') {
+                showMessage(parsedHistory.content, parsedHistory.style);
+            }
+        }
     }
 
     const toastNotificationHistory = sessionStorage.getItem('toast-notification-history');
     if (toastNotificationHistory) {
         const parsedHistory = JSON.parse(toastNotificationHistory);
         if (parsedHistory.display === 'show') {
-            showToastNotification(parsedHistory.content);
+            showToastNotification(parsedHistory.content, parsedHistory.style);
         }
     }
 
@@ -128,14 +136,14 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 const responseData = await response.json();
                 if (response.ok) {
-                    showToastNotification(responseData.message);
+                    showToastNotification(responseData.message, 'success');
 
                     location.reload();
                 } else {
-                    showToastNotification(responseData.error);
+                    showToastNotification(responseData.error, 'error');
                 }
             } catch (error) {
-                showToastNotification(error);
+                showToastNotification(error, 'error');
             }
         });
     });
@@ -182,12 +190,15 @@ document.addEventListener('DOMContentLoaded', function(){
         })
     }
 
-    function showToastNotification(messageData) {
+    function showToastNotification(messageData, style) {
         toastNotification.style.display = 'block';
+        toastNotification.classList.add(style);
         toastNotificationMessage.textContent = messageData;
+
 
         sessionStorage.setItem('toast-notification-history', JSON.stringify({
             display: 'show',
+            style: style,
             content: messageData,
         }));
 
@@ -196,9 +207,11 @@ document.addEventListener('DOMContentLoaded', function(){
 
     function hideNotification() {
         toastNotification.style.display = 'none';
+        toastNotification.classList.remove('success', 'notification', 'warning', 'error');
 
         sessionStorage.setItem('toast-notification-history', JSON.stringify({
             display: 'hide',
+            style: '',
             content: '',
         }));
     }
@@ -207,15 +220,28 @@ document.addEventListener('DOMContentLoaded', function(){
         return Array.from(nodeList).some(ele => ele.value.length === 0);
     }
 
-    function showMessage(text, style) {
-        codeMessage.textContent = text;
+    function showMessage(content, style) {
+        codeMessage.textContent = content;
         codeMessage.classList.add(style);
         codeMessage.style.display = 'block';
+
+        sessionStorage.setItem('message-history', JSON.stringify({
+            display: 'show',
+            style: style,
+            content: content,
+        }));
+
     }
 
     function hideMessage() {
         codeMessage.textContent = '';
         codeMessage.classList.remove('success', 'notification', 'warning', 'error');
         codeMessage.style.display = 'none';
+
+        sessionStorage.setItem('message-history', JSON.stringify({
+            display: 'hide',
+            style: '',
+            content: '',
+        }));
     }
 });

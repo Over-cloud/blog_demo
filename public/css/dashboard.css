@@ -1,7 +1,7 @@
 @import url('components/input-list.css');
+@import url('components/message.css');
 @import url('components/toast-notification.css');
 @import url('components/pagination.css');
-@import url('components/message.css');
 
 /* Dashboard Header */
 .dashboard-header {

@@ -13,13 +13,41 @@
     z-index: 999;
 }
 
+.toast-notification span {
+    padding-right: 5px;
+}
+
+/* Success toast notification styles */
+.toast-notification.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+/* Notification toast notification styles */
+.toast-notification.notification {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+/* Warning toast notification styles */
+.toast-notification.warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+/* Error toast notification styles */
+.toast-notification.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
 .toast-notification button {
     background-color: transparent;
     border: none;
     width: 15px;
     height: 15px;
     padding: 0px;
-    color: #333;
-    font-size: 18px;
+    color: inherit;
+    font-size: 15px;
     cursor: pointer;
 }
