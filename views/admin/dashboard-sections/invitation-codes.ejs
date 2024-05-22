@@ -37,10 +37,10 @@
     </ul>
 </div>
 
-<div id="overlay" class="overlay">
+<div class="overlay" id="add-invitation-code-overlay">
     <div class="panel">
-        <h2>Generate Invitation Code</h2>
-        <button id="close-btn">Close</button>
+		<button class="overlay-close">✖</button>
+		<h2>Generate Invitation Code</h2>
         <form action="/add-invitation-code" method="post" autocomplete="off">
             <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>">
             <div class="invitation-code-inputs">
@@ -49,6 +49,7 @@
                 <input type="text" maxlength="1" size="1" name="invitation-code-3" placeholder="-">
                 <input type="text" maxlength="1" size="1" name="invitation-code-4" placeholder="-">
             </div>
+			<span class="refresh-icon">🔃</span>
             <div class="message"></div>
             <button type="submit" name="addCodeBtn" value="Add Code">Add Code</button>
         </form>

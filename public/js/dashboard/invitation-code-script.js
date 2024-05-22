@@ -1,11 +1,13 @@
 document.addEventListener('DOMContentLoaded', function(){
     /*************************** SELECT ELEMENTS ***************************/
     const generateCodeBtn = document.getElementById('generate-invitation-code-btn');
-    const overlay = document.getElementById('overlay');
-    const closeBtn = document.getElementById('close-btn');
+    // Add inviation code overlay
+    const overlay = document.getElementById('add-invitation-code-overlay');
+    const overlayClose = overlay.querySelector('.overlay-close');
     // Add invitation code form
     const addCodeForm = document.querySelector('form[action="/add-invitation-code"]');
     const codeList = addCodeForm.querySelectorAll('.invitation-code-inputs input');
+    const refreshCode = addCodeForm.querySelector('.refresh-icon');
     const codeMessage = addCodeForm.querySelector('.message');
     // Toast notification
     const toastNotification = document.getElementById('invitation-code-toast-notification');
@@ -36,17 +38,15 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
 
-
     /*************************** EVENT LISTENERS ***************************/
-    // Initialize overlay
     generateCodeBtn.addEventListener('click', function(event) {
         event.preventDefault();
         openOverlay();
         fillInCode();
+        hideMessage();
     });
 
-    // Finalize overlay
-    closeBtn.addEventListener('click', closeOverlay);
+    overlayClose.addEventListener('click', closeOverlay);
 
     // Ensure consecutive inputs
     codeList.forEach((code, index) => {
@@ -75,6 +75,11 @@ document.addEventListener('DOMContentLoaded', function(){
                 codeList[index - 1].focus();
             }
         });
+    });
+
+    refreshCode.addEventListener('click', function () {
+        fillInCode();
+        hideMessage();
     });
 
     // Check if code is valid
@@ -163,21 +168,17 @@ document.addEventListener('DOMContentLoaded', function(){
         return number;
     }
 
-    // Show overlay
     function openOverlay() {
         overlay.style.display = 'block';
         sessionStorage.setItem('codeOverlay', 'show')
     }
 
-    // Hide overlay
     function closeOverlay() {
         overlay.style.display = 'none';
         sessionStorage.setItem('codeOverlay', 'hide')
     }
 
-    // Fill in the invitation code
     function fillInCode() {
-        hideMessage();
         const number = generateCode(codeList.length);
         codeList.forEach((code, index) => {
             code.value = number[index];
