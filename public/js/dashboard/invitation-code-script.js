@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function(){
     /*************************** ON PAGE LOAD ***************************/
     if (sessionStorage.getItem('codeOverlay') === 'show') {
         openOverlay();
+        fillInCode();
 
         const messageHistory = sessionStorage.getItem('message-history');
         if (messageHistory) {
