@@ -190,16 +190,16 @@ document.addEventListener('DOMContentLoaded', function(){
         })
     }
 
-    function showToastNotification(messageData, style) {
+    function showToastNotification(content, style) {
         toastNotification.style.display = 'block';
         toastNotification.classList.add(style);
-        toastNotificationMessage.textContent = messageData;
+        toastNotificationMessage.textContent = content;
 
 
         sessionStorage.setItem('toast-notification-history', JSON.stringify({
             display: 'show',
             style: style,
-            content: messageData,
+            content: content,
         }));
 
         setTimeout(() => hideNotification(), 5000);

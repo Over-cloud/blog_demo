@@ -22,10 +22,12 @@ document.addEventListener('DOMContentLoaded', function(){
     $(loginForm).parsley();
 
     const { message } = getQueryParams();
-    const messageContent = getMessageText(message);
-    if (messageContent != '') {
-        showToastNotification(messageContent);
+    const converted = convertToToastNotification(message);
+    if (converted.content != '') {
+        showToastNotification(converted.content, converted.style);
     }
+
+
     /*************************** EVENT LISTENERS ***************************/
     // show/hide password icon
     passwordInput.addEventListener('input', function() {
@@ -149,14 +151,19 @@ document.addEventListener('DOMContentLoaded', function(){
         };
     }
 
-    function getMessageText(message) {
-        switch(message) {
-            case 'TokenExpired':
-                return 'Your session has expired. Please log in again.';
-            case 'InvalidToken':
-                return 'Invalid credentials. Please retry log in.';
-            default:
-                return '';
+    function convertToToastNotification(message) {
+        if (message === 'TokenExpired') {
+            const content = 'Your session has expired. Please log in again.';
+            const style = 'warning';
+            return { content, style };
+        } else if (message === 'InvalidToken') {
+            const content = 'Invalid credentials. Please retry log in.';
+            const style = 'error';
+            return { content, style };
+        } else {
+            const content = '';
+            const style = '';
+            return { content, style };
         }
     }
 
@@ -164,9 +171,10 @@ document.addEventListener('DOMContentLoaded', function(){
         return Array.from(nodeList).some(ele => ele.value.length === 0);
     }
 
-    function showToastNotification(messageData) {
+    function showToastNotification(content, style) {
         toastNotification.style.display = 'block';
-        toastNotificationMessage.textContent = messageData;
+        toastNotification.classList.add(style);
+        toastNotificationMessage.textContent = content;
 
         setTimeout(() => hideNotification(), 5000);
     }
