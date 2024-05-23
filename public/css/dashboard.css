@@ -278,7 +278,7 @@
     align-items: center;
 }
 
-button[type="submit"] {
+.form-group button[type="submit"] {
     background-color: #007bff;
     color: white;
     padding: 10px 20px;
@@ -288,6 +288,6 @@ button[type="submit"] {
     font-size: 16px;
 }
 
-    button[type="submit"]:hover {
+    .form-group button[type="submit"]:hover {
         background-color: #0056b3;
     }
