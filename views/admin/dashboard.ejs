@@ -34,14 +34,17 @@
     </section>
 </div>
 
-<div id="logout-overlay" class="overlay">
+<div class="overlay" id="logout-overlay">
     <div class="panel">
+        <button class="overlay-close">✖</button>
         <h2>Confirm Logout</h2>
         <form action="/logout" method="post">
-            <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>">
+            <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>" />
             <p class="error-message" id="logout-error"></p>
-            <button id="cancel-logout">Cancel</button>
-            <button type="submit" id="confirm-logout">Logout</button>
+            <div class="form-group center-content">
+                <button id="cancel-logout">Cancel</button>
+                <button type="submit" id="confirm-logout">Logout</button>
+            </div>
         </form>
     </div>
 </div>
