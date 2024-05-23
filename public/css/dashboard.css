@@ -1,5 +1,6 @@
 @import url('components/input-list.css');
 @import url('components/message.css');
+@import url('components/overlay.css');
 @import url('components/toast-notification.css');
 @import url('components/pagination.css');
 
@@ -207,37 +208,6 @@
     align-items: center;
     z-index: 999;
 }
-
-.panel {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-    .panel h2 {
-        margin-top: 0;
-        color: #444;
-    }
-
-.overlay-close {
-    position: absolute;
-    top: 7px;
-    right: 7px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    color: #999;
-}
-
-    .overlay-close:hover {
-        color: #333;
-    }
 
 .refresh-icon {
     cursor: pointer;
