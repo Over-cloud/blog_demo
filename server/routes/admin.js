@@ -94,7 +94,6 @@ router.get('/dashboard', authGuard, async (request, response) => {
             deletedPostsData,
             codes,
             codeCnt,
-            layout: adminLayout,
         })
 
     } catch (error) {
@@ -113,7 +112,6 @@ router.get('/add-post', authGuard, async (request, response) => {
 
     response.render('admin/add-post', {
         locals,
-        layout: adminLayout,
     })
 })
 
@@ -139,7 +137,6 @@ router.get('/edit-post/:id', authGuard, async (request, response) => {
             locals,
             post,
             isDeleted: post.isDeleted,
-            layout: adminLayout,
         })
     } catch (error) {
         response.status(500).json({ error: 'Internal server error.' })
