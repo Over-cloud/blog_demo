@@ -1,0 +1,34 @@
+.btn {
+    background-color: white;
+    color: #333;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: 2px solid #333;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+    .btn:hover {
+        background-color: #e6e6e6;
+    }
+
+.confirm-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+    .confirm-btn:hover {
+        background-color: #0056b3;
+    }
+
+.cancel-btn {
+    color: #007bff;
+    border: 2px solid #007bff;
+}
+
+    .cancel-btn:hover {
+        background-color: #e0f7ff;
+        color: #0056b3;
+    }
