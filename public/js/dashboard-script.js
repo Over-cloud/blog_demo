@@ -1,19 +1,21 @@
 document.addEventListener('DOMContentLoaded', function(){
     /*************************** SELECT ELEMENTS ***************************/
     const navLogout = document.getElementById("nav-logout");
+    // Logout overlay
     const logoutOverlay = document.getElementById("logout-overlay");
+    const logoutOverlayClose = logoutOverlay.querySelector('.overlay-close');
+    // Logout form
     const logoutForm = document.querySelector('form[action="/logout"]');
-    const cancelLogout = document.getElementById('cancel-logout');
-    const confirmLogout = document.getElementById('confirm-logout');
-    const logoutError = document.getElementById('logout-error');
+    const cancelLogout = logoutForm.querySelector('.cancel-btn');
+    const confirmLogout = logoutForm.querySelector('.confirm-btn');
+    const logoutMessage = logoutForm.querySelector('.message');
 
     /*************************** EVENT LISTENERS ***************************/
     navLogout.addEventListener('click', openLogoutOverlay);
 
-    cancelLogout.addEventListener('click', function(event) {
-        event.preventDefault();
-        closeLogoutOverlay();
-    });
+    logoutOverlayClose.addEventListener('click', closeLogoutOverlay);
+
+    cancelLogout.addEventListener('click', closeLogoutOverlay);
 
     logoutForm.addEventListener('submit', async function(event) {
         event.preventDefault();
@@ -34,16 +36,15 @@ document.addEventListener('DOMContentLoaded', function(){
 
             const responseData = await response.json();
             if (response.ok) {
-                logoutError.textContent = '';
-                logoutError.style.display = 'none';
+                hideMessage();
                 window.location.href = '/';
             } else {
-                logoutError.textContent = responseData.error || 'An error occurred. Please try again later.';
-                logoutError.style.display = 'block';
+                const content = responseData.error || 'An error occurred. Please try again later.';
+                showMessage(content, 'error');
             }
         } catch (error) {
-            logoutError.textContent = 'An error occurred. Please try again later.';
-            logoutError.style.display = 'block';
+            const content = 'An error occurred. Please try again later.';
+            showMessage(content, 'error');
         } finally {
             cancelLogout.disabled = false;
             confirmLogout.disabled = false;
@@ -108,5 +109,17 @@ document.addEventListener('DOMContentLoaded', function(){
         if (link) {
             link.click();
         }
+    }
+
+    function showMessage(content, style) {
+        logoutMessage.textContent = content;
+        logoutMessage.classList.add(style);
+        logoutMessage.style.display = 'block';
+    }
+
+    function hideMessage() {
+        logoutMessage.textContent = '';
+        logoutMessage.classList.remove('success', 'notification', 'warning', 'error');
+        logoutMessage.style.display = 'none';
     }
 });

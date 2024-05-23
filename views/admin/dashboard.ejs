@@ -39,11 +39,11 @@
         <button class="overlay-close">✖</button>
         <h2>Confirm Logout</h2>
         <form action="/logout" method="post">
-            <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>" />
-            <p class="error-message" id="logout-error"></p>
+			<input type="hidden" name="_csrf" value="<%= locals.csrfToken %>" />
+			<p class="message"></p>
             <div class="form-group center-content">
-                <button type="button" class="btn cancel-btn" id="cancel-logout">Cancel</button>
-                <button type="submit" class="btn confirm-btn" id="confirm-logout">Logout</button>
+                <button type="button" class="btn cancel-btn">Cancel</button>
+                <button type="submit" class="btn confirm-btn">Logout</button>
             </div>
         </form>
     </div>

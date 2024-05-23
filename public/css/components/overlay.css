@@ -25,6 +25,8 @@
     .panel h2 {
         margin-top: 0;
         color: #444;
+        justify-content: center;
+        align-items: center;
     }
 
 .overlay-close {
