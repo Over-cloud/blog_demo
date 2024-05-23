@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function(){
             return;
         }
 
-        const csrfToken = document.querySelector('input[name="_csrf"]').value;
+        const csrfToken = addCodeForm.querySelector('input[name="_csrf"]').value;
  
         try {
             const response = await fetch('/add-invitation-code', {
