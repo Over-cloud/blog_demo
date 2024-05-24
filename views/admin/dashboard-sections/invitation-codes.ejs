@@ -20,8 +20,8 @@
             <li>
                 <div class="dashboard-post-info">
                     <span><%= codeEntry.code %></span>
-                    <span class="article-date"><%= codeEntry.validFrom.toISOString() %></span>
-                    <span class="article-date"><%= codeEntry.validUntil.toISOString() %></span>
+                    <span class="article-date"><%= formatDateAsUTCString(codeEntry.validFrom) %></span>
+                    <span class="article-date"><%= formatDateAsUTCString(codeEntry.validUntil) %></span>
                 </div>
 
                 <div class="dashboard-post-controls">

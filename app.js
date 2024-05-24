@@ -1,7 +1,6 @@
 require('dotenv').config()
 const visitorRouter = require('./server/routes/main')
 const adminRouter = require('./server/routes/admin')
-const getRouteClass = require('./server/helper/routeHelper')
 
 const express = require('express')
 const expressLayout = require('express-ejs-layouts')
@@ -13,6 +12,10 @@ const csrf = require('csurf');
 
 const connectToDB = require('./server/config/db')
 
+// Helper functions
+const { formatDateAsUTCString } = require('./server/helper/time');
+const getRouteClass = require('./server/helper/routeHelper');
+
 const app = express()
 
 // Connect to mongodb
@@ -21,11 +24,12 @@ connectToDB()
 // Serve static files from the 'public' directory
 app.use(express.static('public'))
 
-// Make getRouteClass available to templates
+// Make helper functions available to templates
 app.use((request, response, next) => {
     response.locals.getRouteClass = getRouteClass;
-    next()
-})
+    response.locals.formatDateAsUTCString = formatDateAsUTCString;
+    next();
+});
 
 // Serve font files from the 'fonts' directory
 app.use('/fonts', express.static('fonts'));
