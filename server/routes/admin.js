@@ -9,7 +9,7 @@ const sanitizeHtml = require('sanitize-html');
 const router = express.Router()
 
 // Helper functions
-const getTodayUTC = require('../helper/time')
+const { getTodayUTC } = require('../helper/datetimeHelper');
 
 // Data Schema
 const Post = require('../models/post')
@@ -328,7 +328,7 @@ router.post('/add-invitation-code', authGuard, async (request, response) => {
 
         const validFromDate = new Date(validFrom);
         const validUntilDate = new Date(validUntil);
-        console.log("today: " + getTodayUTC() + ", from date: " + validFromDate);
+
         if (validFromDate < getTodayUTC()) {
             return response.status(400).json({ error: 'Start date must be today or later.' });
         }

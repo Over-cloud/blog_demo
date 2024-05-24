@@ -13,7 +13,7 @@ const csrf = require('csurf');
 const connectToDB = require('./server/config/db')
 
 // Helper functions
-const { formatDateAsUTCString } = require('./server/helper/time');
+const { formatDateAsUTCString } = require('./server/helper/datetimeHelper');
 const getRouteClass = require('./server/helper/routeHelper');
 
 const app = express()
