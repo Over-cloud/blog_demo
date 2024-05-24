@@ -8,6 +8,10 @@ document.addEventListener('DOMContentLoaded', function(){
     const addCodeForm = document.querySelector('form[action="/add-invitation-code"]');
     const codeList = addCodeForm.querySelectorAll('.invitation-code-inputs input');
     const refreshCode = addCodeForm.querySelector('.refresh-icon');
+    const codeValidFrom = addCodeForm.querySelector('#validFrom');
+    const codeValidUntil = addCodeForm.querySelector('#validUntil');
+    const codeMaxUsage = addCodeForm.querySelector('#maxUsage');
+    const codeDescription = addCodeForm.querySelector('#description');
     const codeMessage = addCodeForm.querySelector('.message');
     // Toast notification
     const toastNotification = document.getElementById('invitation-code-toast-notification');
@@ -92,7 +96,9 @@ document.addEventListener('DOMContentLoaded', function(){
         }
 
         const csrfToken = addCodeForm.querySelector('input[name="_csrf"]').value;
- 
+        const validFromUTC = new Date(codeValidFrom.value).toISOString();
+        const validUntilUTC = new Date(codeValidUntil.value).toISOString();
+
         try {
             const response = await fetch('/add-invitation-code', {
                 method: 'POST',
@@ -105,6 +111,10 @@ document.addEventListener('DOMContentLoaded', function(){
                     'invitation-code-2': codeList[1].value,
                     'invitation-code-3': codeList[2].value,
                     'invitation-code-4': codeList[3].value,
+                    validFrom: validFromUTC,
+                    validUntil: validUntilUTC,
+                    maxUsage: codeMaxUsage.value,
+                    description: codeDescription.value,
                 })
             });
 

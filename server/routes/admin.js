@@ -8,12 +8,13 @@ const sanitizeHtml = require('sanitize-html');
 
 const router = express.Router()
 
+// Helper functions
+const getTodayUTC = require('../helper/time')
+
 // Data Schema
 const Post = require('../models/post')
 const User = require('../models/user')
 const InvitationCode = require('../models/invitation-code')
-
-const adminLayout = '../views/layouts/admin-layout'
 
 const jwtSecret = process.env.JWT_SECRET
 
@@ -307,7 +308,34 @@ router.post('/add-invitation-code', authGuard, async (request, response) => {
             'invitation-code-2': code2,
             'invitation-code-3': code3,
             'invitation-code-4': code4,
+            validFrom,
+            validUntil,
+            maxUsage,
+            description,
         } = request.body;
+
+        if (![code1, code2, code3, code4].every(code => /^\d{1}$/.test(code))) {
+            return response.status(400).json({ error: 'Each code part must be a single digit.' });
+        }
+
+        if (!validFrom || !validUntil || isNaN(Date.parse(validFrom)) || isNaN(Date.parse(validUntil))) {
+            return response.status(400).json({ error: 'Start date and end date must be valid dates.' });
+        }
+
+        if (isNaN(maxUsage) || maxUsage <= 0 || maxUsage > 50) {
+            return response.status(400).json({ error: 'Max usage must be between 1 and 50.' });
+        }
+
+        const validFromDate = new Date(validFrom);
+        const validUntilDate = new Date(validUntil);
+        console.log("today: " + getTodayUTC() + ", from date: " + validFromDate);
+        if (validFromDate < getTodayUTC()) {
+            return response.status(400).json({ error: 'Start date must be today or later.' });
+        }
+
+        if (validFromDate >= validUntilDate) {
+            return response.status(400).json({ error: 'Start date must be earlier than end date.' });
+        }
 
         const code = `${code1}${code2}${code3}${code4}`;
 
@@ -318,7 +346,13 @@ router.post('/add-invitation-code', authGuard, async (request, response) => {
         }
 
         // Otherwise, save the code
-        const newCode = new InvitationCode({ code })
+        const newCode = new InvitationCode({
+            code,
+            validFrom: validFromDate,
+            validUntil: validUntilDate,
+            maxUsage: parseInt(maxUsage, 10),
+            description,
+        })
         await newCode.save()
 
         response.status(201).json({ message: 'Invitation code added successfully.' });
