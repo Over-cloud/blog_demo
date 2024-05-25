@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if (sessionStorage.getItem('codeOverlay') === 'show') {
         openOverlay();
         fillInCode();
+        setDatesToDefault();
 
         const messageHistory = sessionStorage.getItem('message-history');
         if (messageHistory) {
@@ -53,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function(){
         event.preventDefault();
         openOverlay();
         fillInCode();
+        setDatesToDefault();
         hideMessage();
     });
 
@@ -260,5 +262,20 @@ document.addEventListener('DOMContentLoaded', function(){
             style: '',
             content: '',
         }));
+    }
+
+    function parseDateLocal(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    function setDatesToDefault() {
+        let today = new Date();
+        codeValidFrom.value = parseDateLocal(today);
+
+        today.setDate(today.getDate() + 7);
+        codeValidUntil.value = parseDateLocal(today);
     }
 });
