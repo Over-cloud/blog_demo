@@ -103,6 +103,11 @@ document.addEventListener('DOMContentLoaded', function(){
             return;
         }
 
+        if (!Date.parse(codeValidFrom.value) || !Date.parse(codeValidUntil.value)) {
+            showMessage('Start/end date must be valid.', 'error');
+            return;
+        }
+
         const csrfToken = addCodeForm.querySelector('input[name="_csrf"]').value;
         const validFromUTC = new Date(codeValidFrom.value).toISOString();
         const validUntilUTC = new Date(codeValidUntil.value).toISOString();
