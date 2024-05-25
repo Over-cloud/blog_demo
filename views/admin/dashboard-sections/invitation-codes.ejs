@@ -7,7 +7,7 @@
 </div>
 
 <div class="dashboard-tools-panel">
-    <button type="bnt" id="generate-invitation-code-btn">Generate Code</button>
+    <button type="button" class="btn" id="generate-invitation-code-btn">Generate Code</button>
 </div>
 
 <div class="dashboard-content">
@@ -25,10 +25,10 @@
                 </div>
 
                 <div class="dashboard-post-controls">
-                    <button class="btn btn-copy" />
+                    <button class="icon-btn copy-icon-btn" />
                     <form class="" action="delete-code/<%= codeEntry._id %>?_method=DELETE" method="post">
                         <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>" />
-                        <button type="submit" value="Delete" class="btn btn-delete" />
+                        <button type="submit" value="Delete" class="icon-btn delete-icon-btn" />
                     </form>
                 </div>
             </li>

@@ -16,11 +16,11 @@
 
                 <div class="dashboard-post-controls">
                     <form action="edit-post/<%= post._id %>" method="get">
-                        <button type="submit" class="btn btn-edit">
+                        <button type="submit" class="icon-btn edit-icon-btn">
                     </form>
                     <form action="restore-post/<%= post._id %>?_method=PUT" method="post">
                         <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>">
-                        <button type="submit" class="btn btn-restore">
+                        <button type="submit" class="icon-btn restore-icon-btn">
                     </form>
                 </div>
             </li>

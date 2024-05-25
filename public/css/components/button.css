@@ -1,3 +1,4 @@
+/* Normal-sized buttons */
 .btn {
     background-color: white;
     color: #333;
@@ -32,3 +33,62 @@
         background-color: #e0f7ff;
         color: #0056b3;
     }
+
+/* Small-sized buttons */
+.icon-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 25px;
+    padding: 4px 8px;
+    border: 1px solid #666;
+    border-radius: 10px;
+    background-color: #eee;
+    cursor: pointer;
+}
+
+    .icon-btn:hover {
+        box-shadow: 0 0 10px 5px #3498db;
+    }
+
+.edit-icon-btn::before {
+    content: '';
+    background-image: url('/img/edit_64px.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}
+
+.delete-icon-btn::before {
+    content: '';
+    background-image: url('/img/trash_can_64px.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}
+
+.restore-icon-btn::before {
+    content: '';
+    background-image: url('/img/restore_64px.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}
+
+.copy-icon-btn::before {
+    content: '';
+    background-image: url('/img/copy_64px.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}

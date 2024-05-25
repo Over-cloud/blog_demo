@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', function(){
     /*************************** SELECT ELEMENTS ***************************/
+    // Tools panel
     const generateCodeBtn = document.getElementById('generate-invitation-code-btn');
+    // Content list controls
+    const delCodeFormList = document.querySelectorAll('form[action^="delete-code/"]');
     // Add inviation code overlay
     const overlay = document.getElementById('add-invitation-code-overlay');
     const overlayClose = overlay.querySelector('.overlay-close');
@@ -20,6 +23,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
     /*************************** ON PAGE LOAD ***************************/
+    // Check if overlay should be displayed
+    // If so, fillin code and also show past notification.
     if (sessionStorage.getItem('codeOverlay') === 'show') {
         openOverlay();
         fillInCode();
@@ -33,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     }
 
+    // Check if toast notification should be displayed
     const toastNotificationHistory = sessionStorage.getItem('toast-notification-history');
     if (toastNotificationHistory) {
         const parsedHistory = JSON.parse(toastNotificationHistory);
@@ -132,15 +138,14 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     });
 
-    const delCodeFormList = document.querySelectorAll('form[action^="delete-code/"]');
-    const delCodeMessage = document.getElementById('delete-code-message');
     delCodeFormList.forEach(form => {
         form.addEventListener('submit', async function(event) {
             event.preventDefault();
 
             const action = form.getAttribute('action');
             const codeId = action.split('/').pop();
-            const csrfToken = document.querySelector('form[action^="delete-code/"] input[name="_csrf"]').value;
+            const csrfToken = form.querySelector('input[name="_csrf"]').value;
+
             try {
                 const response = await fetch(action, {
                     method: 'DELETE',
