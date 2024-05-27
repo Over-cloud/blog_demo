@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const codeMaxUsage = addCodeForm.querySelector('#maxUsage');
     const codeDescription = addCodeForm.querySelector('#description');
     const codeMessage = addCodeForm.querySelector('.message');
+    const addCodeBtn = addCodeForm.querySelector('button[type="submit"]');
     // Toast notification
     const toastNotification = document.getElementById('invitation-code-toast-notification');
     const toastNotificationMessage = toastNotification.querySelector('span');
@@ -112,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function(){
         const validFromUTC = new Date(codeValidFrom.value).toISOString();
         const validUntilUTC = new Date(codeValidUntil.value).toISOString();
 
+        addCodeBtn.disabled = true;
         try {
             const response = await fetch('/add-invitation-code', {
                 method: 'POST',
@@ -142,6 +144,8 @@ document.addEventListener('DOMContentLoaded', function(){
             }
         } catch (error) {
             showMessage(error, 'error');
+        } finally {
+            addCodeBtn.disabled = false;
         }
     });
 
@@ -150,7 +154,6 @@ document.addEventListener('DOMContentLoaded', function(){
             event.preventDefault();
 
             const action = form.getAttribute('action');
-            const codeId = action.split('/').pop();
             const csrfToken = form.querySelector('input[name="_csrf"]').value;
 
             try {
@@ -209,15 +212,15 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // Clear the invitation code
     function clearCode() {
-        codeList.forEach((code, index) => {
+        codeList.forEach(code => {
             code.value = '';
         })
     }
 
     function showToastNotification(content, style) {
-        toastNotification.style.display = 'block';
-        toastNotification.classList.add(style);
         toastNotificationMessage.textContent = content;
+        toastNotification.classList.add(style);
+        toastNotification.style.display = 'block';
 
 
         sessionStorage.setItem('toast-notification-history', JSON.stringify({
@@ -258,9 +261,9 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     function hideMessage() {
+        codeMessage.style.display = 'none';
         codeMessage.textContent = '';
         codeMessage.classList.remove('success', 'notification', 'warning', 'error');
-        codeMessage.style.display = 'none';
 
         sessionStorage.setItem('message-history', JSON.stringify({
             display: 'hide',

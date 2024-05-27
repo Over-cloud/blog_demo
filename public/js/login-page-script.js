@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function(){
     const usernameInput = document.getElementById('username-input');
     const passwordInput = document.getElementById('password-input');
     const showPasswordIcon = document.getElementById('show-password-icon');
-    const usernameError = document.getElementById('username-error');
     const passwordError = document.getElementById('password-error');
     const loginButton = document.getElementById('login-button');
     // Invitation code form elements

@@ -333,7 +333,7 @@ router.post('/add-invitation-code', authGuard, async (request, response) => {
             return response.status(400).json({ error: 'Start date must be today or later.' });
         }
 
-        if (validFromDate >= validUntilDate) {
+        if (validFromDate > validUntilDate) {
             return response.status(400).json({ error: 'Start date must be earlier than end date.' });
         }
 
