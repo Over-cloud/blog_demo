@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="dashboard-post-controls">
-                    <button class="icon-btn copy-icon-btn" />
+                    <button class="icon-btn copy-icon-btn" data-code="<%= codeEntry.code %>" />
                     <form class="" action="delete-code/<%= codeEntry._id %>?_method=DELETE" method="post">
                         <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>" />
                         <button type="submit" value="Delete" class="icon-btn delete-icon-btn" />

@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function(){
     // Tools panel
     const generateCodeBtn = document.getElementById('generate-invitation-code-btn');
     // Content list controls
+    const cpyCodeBtnList = document.querySelectorAll('.copy-icon-btn');
     const delCodeFormList = document.querySelectorAll('form[action^="delete-code/"]');
     // Add inviation code overlay
     const overlay = document.getElementById('add-invitation-code-overlay');
@@ -57,6 +58,17 @@ document.addEventListener('DOMContentLoaded', function(){
         fillInCode();
         setDatesToDefault();
         hideMessage();
+    });
+
+    cpyCodeBtnList.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const code = this.getAttribute('data-code');
+            navigator.clipboard.writeText(code).then(function () {
+                showToastNotification("Code copied to clipboard!", 'success');
+            }, function (error) {
+                showToastNotification("Failed to copy code. Please try again.", 'error');
+            });
+        });
     });
 
     overlayClose.addEventListener('click', closeOverlay);
