@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     });
 
-    toastNotificationClose.addEventListener('click', hideNotification);
+    toastNotificationClose.addEventListener('click', hideToastNotification);
 
 
     /*************************** HELPER FUNCTIONS ***************************/
@@ -171,14 +171,23 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     function showToastNotification(content, style) {
-        toastNotification.style.display = 'block';
-        toastNotification.classList.add(style);
-        toastNotificationMessage.textContent = content;
+        if (toastNotification.classList.contains('show')) {
+            hideToastNotification();
+        }
 
-        setTimeout(() => hideNotification(), 5000);
+        toastNotificationMessage.textContent = content;
+        toastNotification.classList.add(style, 'show');
+
+        setTimeout(() => hideToastNotification(), 5000);
     }
 
-    function hideNotification() {
-        toastNotification.style.display = 'none';
+    function hideToastNotification() {
+        toastNotification.classList.remove('show');
+        toastNotification.addEventListener('transitionend', function onTransitionEnd() {
+            toastNotification.classList.remove('success', 'notification', 'warning', 'error');
+            toastNotificationMessage.textContent = '';
+
+            toastNotification.removeEventListener('transitionend', onTransitionEnd);
+        });
     }
 });

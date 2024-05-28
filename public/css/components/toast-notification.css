@@ -9,13 +9,20 @@
     padding: 8px 15px;
     border-radius: 20px;
     font-size: 15px;
-    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
     z-index: 999;
 }
 
-.toast-notification span {
-    padding-right: 5px;
-}
+    .toast-notification.show {
+        opacity: 1;
+        transform:translateY(0);
+    }
+
+    .toast-notification span {
+        padding-right: 5px;
+    }
 
 /* Success toast notification styles */
 .toast-notification.success {

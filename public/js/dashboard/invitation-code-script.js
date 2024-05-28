@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     });
 
-    toastNotificationClose.addEventListener('click', hideNotification);
+    toastNotificationClose.addEventListener('click', hideToastNotification);
 
 
     /*************************** HELPER FUNCTIONS ***************************/
@@ -230,10 +230,12 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     function showToastNotification(content, style) {
-        toastNotificationMessage.textContent = content;
-        toastNotification.classList.add(style);
-        toastNotification.style.display = 'block';
+        if (toastNotification.classList.contains('show')) {
+            hideToastNotification();
+        }
 
+        toastNotificationMessage.textContent = content;
+        toastNotification.classList.add(style, 'show');
 
         sessionStorage.setItem('toast-notification-history', JSON.stringify({
             display: 'show',
@@ -241,18 +243,21 @@ document.addEventListener('DOMContentLoaded', function(){
             content: content,
         }));
 
-        setTimeout(() => hideNotification(), 5000);
+        setTimeout(() => hideToastNotification(), 5000);
     }
 
-    function hideNotification() {
-        toastNotification.style.display = 'none';
-        toastNotification.classList.remove('success', 'notification', 'warning', 'error');
-
-        sessionStorage.setItem('toast-notification-history', JSON.stringify({
-            display: 'hide',
-            style: '',
-            content: '',
-        }));
+    function hideToastNotification() {
+        toastNotification.classList.remove('show');
+        toastNotification.addEventListener('transitionend', function onTransitionEnd() {
+            toastNotification.classList.remove('success', 'notification', 'warning', 'error');
+            toastNotificationMessage.textContent = '';
+            sessionStorage.setItem('toast-notification-history', JSON.stringify({
+                display: 'hide',
+                style: '',
+                content: '',
+            }));
+            toastNotification.removeEventListener('transitionend', onTransitionEnd);
+        });
     }
 
     function hasEmptyfields(nodeList) {
