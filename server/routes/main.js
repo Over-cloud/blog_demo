@@ -1,9 +1,12 @@
 const express = require('express')
 const { body, validationResult } = require('express-validator')
 const router = express.Router()
-const Post = require('../models/post')
 
 const loginSignupLayout = '../views/layouts/login-signup-layout'
+
+// Data Schema
+const Post = require('../models/post')
+const InvitationCode = require('../models/invitation-code')
 
 // GET
 // HOME
@@ -173,7 +176,25 @@ router.post('/search', [
 
 router.post('/verify-invitation-code', async (request, response) => {
     try {
-        response.redirect('/signup')
+        const {
+            'invitation-code-1': code1,
+            'invitation-code-2': code2,
+            'invitation-code-3': code3,
+            'invitation-code-4': code4,
+        } = request.body;
+
+        if (![code1, code2, code3, code4].every(code => /^\d{1}$/.test(code))) {
+            return response.status(400).json({ error: "Must be a 4-digit code." });
+        }
+
+        const code = `${code1}${code2}${code3}${code4}`;
+
+        const existingCode = await InvitationCode.findOne({ code });
+        if (!existingCode) {
+            return response.status(400).json({ error: 'Invitation code is invalid.' });
+        }
+
+        response.status(201).json({ message: 'Invitation code is valid.' });
 
     } catch (error) {
         console.log(error)

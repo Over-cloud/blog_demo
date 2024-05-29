@@ -132,10 +132,43 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
     // submit invitation code
-    invitationForm.addEventListener('submit', function(event) {
+    invitationForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+
         if (hasEmptyfields(inputList)) {
-            event.preventDefault();
             showMessage("Must be a 4-digit code.", 'error');
+            return;
+        }
+
+        const csrfToken = invitationForm.querySelector('input[name="_csrf"]').value;
+
+        try {
+            const response = await fetch('/verify-invitation-code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'CSRF-Token': csrfToken,
+                },
+                body: JSON.stringify({
+                    'invitation-code-1': inputList[0].value,
+                    'invitation-code-2': inputList[1].value,
+                    'invitation-code-3': inputList[2].value,
+                    'invitation-code-4': inputList[3].value,
+                }),
+            });
+
+            const responseData = await response.json();
+            if (response.ok) {
+                hideMessage();
+                invitationForm.reset();
+                window.location.href = '/signup';
+            } else {
+                showMessage(responseData.error, 'error');
+            }
+        } catch (error) {
+            showMessage(error, 'error');
+        } finally {
+
         }
     });
 
