@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function(){
     // Invitation code form elements
     const invitationForm = document.querySelector('form[action="/verify-invitation-code"]');
     const inputList = invitationForm.querySelectorAll('.invitation-code-inputs input');
-    const invitationInputError = invitationForm.querySelector('#invitation-inputs-error');
+    const codeMessage = invitationForm.querySelector('.message');
     // Toast notification elements
     const toastNotification = document.getElementById('login-toast-notification');
     const toastNotificationMessage = toastNotification.querySelector('span');
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function(){
             // Ensure only digits are entered
             this.value = this.value.replace(/\D/g, '');
             // Clear message on input change
-            invitationInputError.style.display = 'none';
+            hideMessage();
 
             if (this.value.length === 1) {
                 let first = index;
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function(){
     invitationForm.addEventListener('submit', function(event) {
         if (hasEmptyfields(inputList)) {
             event.preventDefault();
-            invitationInputError.style.display = 'block';
+            showMessage("Must be a 4-digit code.", 'error');
         }
     });
 
@@ -189,5 +189,17 @@ document.addEventListener('DOMContentLoaded', function(){
 
             toastNotification.removeEventListener('transitionend', onTransitionEnd);
         });
+    }
+
+    function showMessage(content, style) {
+        codeMessage.textContent = content;
+        codeMessage.classList.add(style);
+        codeMessage.style.display = 'block';
+    }
+
+    function hideMessage() {
+        codeMessage.style.display = 'none';
+        codeMessage.textContent = '';
+        codeMessage.classList.remove('success', 'notification', 'warning', 'error');
     }
 });
