@@ -140,6 +140,7 @@ document.addEventListener('DOMContentLoaded', function(){
             return;
         }
 
+        const code = Array.from(inputList).map(input => input.value).join('');
         const csrfToken = invitationForm.querySelector('input[name="_csrf"]').value;
 
         try {
@@ -149,12 +150,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     'Content-Type': 'application/json',
                     'CSRF-Token': csrfToken,
                 },
-                body: JSON.stringify({
-                    'invitation-code-1': inputList[0].value,
-                    'invitation-code-2': inputList[1].value,
-                    'invitation-code-3': inputList[2].value,
-                    'invitation-code-4': inputList[3].value,
-                }),
+                body: JSON.stringify({ code }),
             });
 
             const responseData = await response.json();

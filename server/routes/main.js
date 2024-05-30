@@ -179,18 +179,7 @@ router.post('/search', [
 
 router.post('/verify-invitation-code', async (request, response) => {
     try {
-        const {
-            'invitation-code-1': code1,
-            'invitation-code-2': code2,
-            'invitation-code-3': code3,
-            'invitation-code-4': code4,
-        } = request.body;
-
-        if (![code1, code2, code3, code4].every(code => /^\d{1}$/.test(code))) {
-            return response.status(400).json({ error: "Must be a 4-digit code." });
-        }
-
-        const code = `${code1}${code2}${code3}${code4}`;
+        const { code } = request.body;
 
         const existingCode = await InvitationCode.findOne({ code });
         if (!existingCode) {
@@ -211,14 +200,14 @@ router.post('/verify-invitation-code', async (request, response) => {
         if (todayUTC < existingCode.validFrom) {
             return response.status(400).json({
                 type: "notification",
-                message: "Invitation code is not yet available."
+                message: "Code is not yet available."
             });
         }
 
         if (existingCode.maxUsage <= 0) {
             return response.status(400).json({
                 type: "warning",
-                message: "Invitation code has reached its maximum usage limit."
+                message: "Code has reached max usage."
             });
         }
 
