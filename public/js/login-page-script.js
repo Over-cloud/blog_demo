@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 invitationForm.reset();
                 window.location.href = '/signup';
             } else {
-                showMessage(responseData.error, 'error');
+                showMessage(responseData.message, responseData.type);
             }
         } catch (error) {
             showMessage(error, 'error');

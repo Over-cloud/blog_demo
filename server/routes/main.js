@@ -4,6 +4,9 @@ const router = express.Router()
 
 const loginSignupLayout = '../views/layouts/login-signup-layout'
 
+// Helper functions
+const { getTodayUTC } = require('../helper/datetimeHelper');
+
 // Data Schema
 const Post = require('../models/post')
 const InvitationCode = require('../models/invitation-code')
@@ -191,14 +194,45 @@ router.post('/verify-invitation-code', async (request, response) => {
 
         const existingCode = await InvitationCode.findOne({ code });
         if (!existingCode) {
-            return response.status(400).json({ error: 'Invitation code is invalid.' });
+            return response.status(400).json({
+                type: "error",
+                message: "Invitation code is invalid."
+            });
         }
 
-        response.status(201).json({ message: 'Invitation code is valid.' });
+        const todayUTC = getTodayUTC();
+        if (todayUTC > existingCode.validUntil) {
+            return response.status(400).json({
+                type: "error",
+                message: "Invitation code is expired."
+            });
+        }
+
+        if (todayUTC < existingCode.validFrom) {
+            return response.status(400).json({
+                type: "notification",
+                message: "Invitation code is not yet available."
+            });
+        }
+
+        if (existingCode.maxUsage <= 0) {
+            return response.status(400).json({
+                type: "warning",
+                message: "Invitation code has reached its maximum usage limit."
+            });
+        }
+
+        response.status(200).json({
+            type: "success",
+            message: "Invitation code is valid."
+        });
 
     } catch (error) {
-        console.log(error)
+        response.status(500).json({
+            type: "error",
+            message: "Internal server error."
+        });
     }
-})
+});
 
 module.exports = router
