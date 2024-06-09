@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function(){
             // Ensure only digits are entered
             this.value = this.value.replace(/\D/g, '');
             // Clear message on input change
-            hideMessage();
+            hideMessage(codeMessage);
 
             if (this.value.length === 1) {
                 let first = index;
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
             const responseData = await response.json();
             if (response.ok) {
-                hideMessage();
+                hideMessage(codeMessage);
                 invitationForm.reset();
                 window.location.href = '/signup';
             } else {
