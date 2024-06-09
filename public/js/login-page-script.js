@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const usernameInput = document.getElementById('username-input');
     const passwordInput = document.getElementById('password-input');
     const showPasswordIcon = document.getElementById('show-password-icon');
-    const passwordError = document.getElementById('password-error');
+    const loginMessage = loginForm.querySelector('.message');
     const loginButton = document.getElementById('login-button');
     // Invitation code form elements
     const invitationForm = document.querySelector('form[action="/verify-invitation-code"]');
@@ -49,13 +49,13 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 
     // clear error message when input changes
-    usernameInput.addEventListener('input', function() {
-        passwordError.style.display = 'none';
+    usernameInput.addEventListener('input', function () {
+        hideMessage(loginMessage);
     });
 
     // clear error message when input changes
-    passwordInput.addEventListener('input', function() {
-        passwordError.style.display = 'none';
+    passwordInput.addEventListener('input', function () {
+        hideMessage(loginMessage);
     });
 
     //
@@ -82,19 +82,17 @@ document.addEventListener('DOMContentLoaded', function(){
 
             const responseData = await response.json();
             if (response.ok) {
-                passwordError.textContent = '';
-                passwordError.style.display = 'none';
+                hideMessage(loginMessage);
                 loginForm.reset();
                 showPasswordIcon.style.display = 'none';
                 window.location.href = '/dashboard';
             } else {
-                passwordError.textContent = responseData.error || 'An error occurred. Please try again later.';
-                passwordError.style.display = 'block';
+                messageContent = responseData.error || 'An error occurred. Please try again later.';
+                showMessage(loginMessage, messageContent, 'error');
             }
 
         } catch (error) {
-            passwordError.textContent = 'An error occurred. Please try again later.';
-            passwordError.style.display = 'block';
+            showMessage(loginMessage, 'An error occurred. Please try again later.', 'error');
         } finally {
             loginButton.disabled = false;
         }
@@ -136,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function(){
         event.preventDefault();
 
         if (hasEmptyfields(inputList)) {
-            showMessage("Must be a 4-digit code.", 'error');
+            showMessage(codeMessage, "Must be a 4-digit code.", 'error');
             return;
         }
 
@@ -159,10 +157,10 @@ document.addEventListener('DOMContentLoaded', function(){
                 invitationForm.reset();
                 window.location.href = '/signup';
             } else {
-                showMessage(responseData.message, responseData.type);
+                showMessage(codeMessage, responseData.message, responseData.type);
             }
         } catch (error) {
-            showMessage(error, 'error');
+            showMessage(codeMessage, error, 'error');
         } finally {
 
         }
@@ -220,15 +218,15 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     }
 
-    function showMessage(content, style) {
-        codeMessage.textContent = content;
-        codeMessage.classList.add(style);
-        codeMessage.style.display = 'block';
+    function showMessage(node, content, style) {
+        node.textContent = content;
+        node.classList.add(style);
+        node.style.display = 'block';
     }
 
-    function hideMessage() {
-        codeMessage.style.display = 'none';
-        codeMessage.textContent = '';
-        codeMessage.classList.remove('success', 'notification', 'warning', 'error');
+    function hideMessage(node) {
+        node.style.display = 'none';
+        node.textContent = '';
+        node.classList.remove('success', 'notification', 'warning', 'error');
     }
 });

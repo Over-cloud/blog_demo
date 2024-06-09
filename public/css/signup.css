@@ -180,13 +180,3 @@ p {
     color: #666;
     margin-bottom: 8px;
 }
-
-#invitation-code-inputs {
-    display: inline-flex;
-}
-
-#invitation-code-inputs input {
-    width: 30px;
-    text-align: center;
-    margin-right: 5px;
-}
